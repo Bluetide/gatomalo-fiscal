@@ -1,0 +1,42 @@
+version: 1
+formatters:
+  logfile:
+    format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    datefmt: '%m/%d/%Y %H:%M:%S %p'
+  console:
+    format: '%(asctime)s - %(message)s'
+    datefmt: '%H:%M:%S'
+
+handlers:
+  console:
+    class: logging.StreamHandler
+    level: INFO
+    formatter: console
+    stream: ext://sys.stdout
+  file:
+    class: logging.FileHandler
+    filename: history.log
+    level: DEBUG
+    formatter: logfile
+loggers:
+  marcadump:
+    level: INFO
+    handlers: [console,file]
+    propagate: no
+  crawler:
+    level: DEBUG
+    handlers: [console,file]
+    propagate: no
+  worker:
+    level: INFO
+    handlers: [console,file]
+    propagate: no
+  db_worker:
+    level: INFO
+    handlers: [console,file]
+    propagate: no
+
+
+
+
+

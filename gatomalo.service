@@ -1,0 +1,15 @@
+[Unit]
+Description="GatoMalo Server"
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/gatomalo
+ExecStart=/gatomalo/bin/python /gatomalo/app.py
+Environment=zoho_auth=11111
+Environment=zoho_org=11111
+Environment=admin_username=1111
+Environment=admin_password=1111
+
+[Install]
+WantedBy=multi-user.target
