@@ -75,7 +75,9 @@ curl -sSL https://github.com/bluetide/gatomalo-fiscal/blob/master/setup.sh | bas
 
 ## Credits
 Ivan Barria Grimaldo @ibarria0
+
 Roberto Zubieta @zubietaroberto
+
 Carlos Raul Piad @Carlospiad
 
 Special thanks to:
