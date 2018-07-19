@@ -11,7 +11,8 @@ curl -sSL https://github.com/bluetide/gatomalo-fiscal/blob/master/setup.sh | bas
 
 1. Descargar repo e instalar dependencias
   ```bash
-  git clone git@github.com:Bluetide/gatomalo-fiscal.git /gatomalo
+  git clone git@github.com:Bluetide/gatomalo-fiscal.git gatomalo
+  cd gatomalo
   python3 -m venv venv
   source venv/bin/activate
   pip install --upgrade wheel pip
