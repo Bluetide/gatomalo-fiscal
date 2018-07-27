@@ -182,7 +182,7 @@
           $('.print_button').click(function(evn){
               if (confirm('Confirmar impresion de factura')) {
                   myApp.showPleaseWait();
-		  $.get('/print_gatomalo/' + $(evn.toElement).data('id'))
+		  $.get('/print_gatomalo/' + $(this).data('id'))
 		    .done(function(data){ myApp.hidePleaseWait(); location.reload(true); })
 		    .error(function(data){ alert(data.responseText); })
 		  ;
