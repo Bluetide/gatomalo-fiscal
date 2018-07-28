@@ -29,7 +29,7 @@ class Cliente:
         return self(cliente['empresa'],cliente['direccion'],cliente['telefono'],cliente['ruc'])
 
     def get_empresa(self):
-        return "@OpenFiscalReceipt|%s" % self.empresa
+        return "jS%s" % self.empresa
 
     def get_direccion(self):
         return "j1Direccion: %s" % self.direccion
@@ -38,10 +38,10 @@ class Cliente:
         return "j2Telefono: %s" % str(self.telefono)
 
     def get_ruc(self):
-        return "|%s" % self.ruc
+        return "jR%s" % self.ruc
 
     def __str__(self):
-        return "\n".join([self.get_empresa() + self.get_ruc()])
+        return "\n".join([self.get_empresa(),self.get_direccion(),self.get_telefono(),self.get_ruc()])
 
     def __repr__(self):
-        return "\n".join([self.get_empresa(),self.get_ruc()])
+        return "\n".join([self.get_empresa(),self.get_direccion(),self.get_telefono(),self.get_ruc()])

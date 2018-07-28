@@ -1,0 +1,5 @@
+@OpenFiscalReceipt|cliente SA|ruc00000
+@PrintLineItem|a|1.0|1.00|07.00|M|
+@Subtotal
+@TotalTender|Otros pagos|1.07|T|5
+@CloseFiscalReceipt|N

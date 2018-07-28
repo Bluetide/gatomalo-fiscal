@@ -47,10 +47,7 @@ class Factura(Base):
         return "\n".join([str(producto) for producto in self.productos])
 
     def get_total(self):
-        subtotal = round(sum([p.precio * p.cantidad for p in self.productos]),2)
-        total = round(float(subtotal) *1.07,2)
-        #return sum([p.precio * p.cantidad for p in self.productos]) - self.descuento
-        return "\n".join(["@TotalTender|Otros pagos|"+ str(total)+'|T|5',"@CloseFiscalReceipt|N"])
+        return sum([p.precio * p.cantidad for p in self.productos]) - self.descuento
 
     def has_nota_de_credito(self):
         if hasattr(self, 'nota_de_credito'):
@@ -63,7 +60,7 @@ class Factura(Base):
         return json
 
     def __str__(self):
-        factura = "\n".join([str(self.cliente),self.get_productos_str(),"@Subtotal", self.get_total()])
+        factura = "\n".join([str(self.cliente),self.codigo(),self.get_productos_str(),"3", self.get_descuento(),"101\r\n"])
         return factura
 
     def print_no_fiscal(self):

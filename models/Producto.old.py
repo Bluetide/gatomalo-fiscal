@@ -34,15 +34,14 @@ class Producto:
             self.descuento = round(Decimal(str(descuento)), 2)
 
     def get_tasa(self):
-        return self.tasa
-        # if self.tasa == 0:
-        #     return " "
-        # elif self.tasa == 1:
-        #     return "!"
-        # elif self.tasa == 2:
-        #     return "\""
-        # elif self.tasa == 3:
-        #     return "3"
+        if self.tasa == 0:
+            return " "
+        elif self.tasa == 1:
+            return "!"
+        elif self.tasa == 2:
+            return "\""
+        elif self.tasa == 3:
+            return "3"
 
     def get_descuento(self):
         return "q-%09d" % self.descuento.shift(2)
@@ -64,8 +63,8 @@ class Producto:
         return ' '.join(output_array)
 
     def __str__(self):
-        price_as_cents = str(round(self.precio,2))
+        price_as_cents = self.precio.shift(2)
         if self.descuento > 0:
-          return "%s%010d%05d%03d%s\n%s" % ('@PrintLineItem|',self.get_tasa(),price_as_cents,self.cantidad,0,self.nombre,self.get_descuento())
+          return "%s%010d%05d%03d%s\n%s" % (self.get_tasa(),price_as_cents,self.cantidad,0,self.nombre,self.get_descuento())
         else:
-          return "\n".join(['@PrintLineItem|'+ self.nombre[:20] + '|' + str(self.cantidad) + '|'+ price_as_cents[:11] + '|' + self.get_tasa() + '|M|'+''])
+          return "%s%010d%05d%03d%s" % (self.get_tasa(),price_as_cents,self.cantidad,0,self.nombre)

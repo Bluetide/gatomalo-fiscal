@@ -119,13 +119,13 @@ def get_facturas():
 @app.route('/reporteX')
 @requires_auth
 def reporteX():
-    printer.print_X()
+    printer.write_string_to_printer('I0X')
     return redirect(url_for('index'))
 
 @app.route('/reporteZ')
 @requires_auth
 def reporteZ():
-    printer.print_Z()
+    printer.write_string_to_printer('I0Z')
     return redirect(url_for('index'))
 
 if __name__ == "__main__":

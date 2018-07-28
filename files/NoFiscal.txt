@@ -1,0 +1,7 @@
+** Ejemplo De Documento No Fiscal
+  
+@OpenNonFiscalReceipt|D
+@PrintNonFiscalText|Linea de texto no fiscal 1
+@PrintNonFiscalText|Linea de texto no fiscal 2
+@PrintNonFiscalText|Linea de texto no fiscal 3
+@CloseNonFiscalReceipt|N

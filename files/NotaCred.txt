@@ -1,0 +1,15 @@
+** Ejemplo De Nota De Credito
+
+@OpenFiscalReceipt|Mi Empresa C.A.|2209651197910|6802|HHP0000002|071002|164032|D
+@PrintLineItem|Mouse Genius XScrol|1.0|4.08|07.00|M|11373
+@PrintLineItem|Patchcord Cat.5E Gr|5.0|4.10|07.00|M|14192
+@PrintLineItem|Microfono NG-H300 N|1.0|4.12|07.00|M|17896
+@PrintLineItem|Mouse Genius Netscr|1.0|4.12|07.00|M|18015
+@PrintLineItem|Ventilador Cyber Co|2.0|4.12|07.00|M|19557
+@PrintLineItem|Lector 3.5 MultiCar|2.0|4.22|07.00|M|14771
+@PrintLineItem|Teclado Noganet Esp|2.0|4.30|07.00|M|18903
+@PrintLineItem|Antena SMA Kozumi W|2.0|4.33|07.00|M|11074
+@PrintLineItem|Teclado Ecovision W|1.0|4.39|07.00|M|11142
+@PrintLineItem|Limpiador para Pant|1.0|4.44|07.00|M|17086
+@PrintLineItem|Auricular Genius Mo|1.0|4.46|07.00|M|19574
+@CloseFiscalReceipt|N
