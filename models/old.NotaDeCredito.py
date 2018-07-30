@@ -27,7 +27,7 @@ class NotaDeCredito(Base):
         return "jFTFBX110002122-%08d" % self.legacy_id
 
     def get_productos_str(self):
-        return "\n".join([str(producto) for producto in self.factura.productos])
+        return "\n".join(['d' + str(producto) for producto in self.factura.productos])
 
     def print(self):
         printer.write_string_to_printer(str(self))
@@ -39,5 +39,5 @@ class NotaDeCredito(Base):
         return "q-%09d" % self.factura.descuento.shift(2)
 
     def __str__(self):
-        factura = "\n".join([str(self.factura.cliente)+'|||||D',self.get_productos_str(), "@CloseFiscalReceipt|N\r\n"])
+        factura = "\n".join([self.get_factura(),str(self.factura.cliente),self.get_productos_str(), "3",  self.get_descuento(),"101\r\n"])
         return factura

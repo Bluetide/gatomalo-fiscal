@@ -1,18 +1,29 @@
 import subprocess
 import tempfile
 
-
-#test ="./iobatch -p 192.168.3.79 -s 1000 -i ./files/CierreX.txt  -o salida.txt"
-#
 def create_input_file(string):
     file = open(('test.txt'),'w')
     file.write(string)
     file.close()
 
 def write_string_to_printer(string):
-    dat = str(string)
-    data = create_input_file(dat)
-    return  print_to_fiscal()
+    print(str(string))
+    return create_input_file(str(string)), print_to_fiscal()
+
+def print_to_fiscal():
+    entrada = './iobatch -p 192.168.3.79 -s 1000 -i test.txt -o salida.txt'
+    #subprocess.call(entrada)
+    subprocess.check_call(entrada, stdin=None, stdout=None, stderr=None, shell=True)
+
+def print_X():
+    cierrex = './iobatch -p 192.168.3.79 -s 1000 -i ./files/cierrex.txt -o salida.txt -n 3 -t 5 -v'
+    subprocess.check_call(cierrex, stdin=None, stdout=None, stderr=None, shell=True)
+
+def print_Z():
+    cierrez = './iobatch -p 192.168.3.79 -s 1000 -i ./files/cierrez.txt -o salida.txt -n 3 -t 5 -v'
+    subprocess.check_call(cierrez, stdin=None, stdout=None, stderr=None, shell=True)
+
+
 
     # fp = tempfile.NamedTemporaryFile(delete=False)
     # fp.write(string.encode('latin1'))
@@ -33,14 +44,3 @@ def write_string_to_printer(string):
     #     #subprocess.call([iobatch, "SendFileCmd", fp.name]) # comment to disable printing
 #subprocess.check_call(iobatch + args, shell=True)
 #subprocess.check_call(iobatch + args, stdin=None, stdout=None, stderr=None, shell=True)
-def print_to_fiscal():
-    entrada = './iobatch -p 192.168.3.79 -s 1000 -i test.txt -o salida.txt'
-    subprocess.check_call(entrada, stdin=None, stdout=None, stderr=None, shell=True)
-
-def print_X():
-    cierrex = './iobatch -p 192.168.3.79 -s 1000 -i ./files/cierrex.txt  -o salida.txt '
-    subprocess.check_call(cierrex, stdin=None, stdout=None, stderr=None, shell=True)
-
-def print_Z():
-    cierrez = './iobatch -p 192.168.3.79 -s 1000 -i ./files/cierrez.txt  -o salida.txt '
-    subprocess.check_call(cierrez, stdin=None, stdout=None, stderr=None, shell=True)

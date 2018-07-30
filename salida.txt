@@ -1,1 +1,1 @@
-@DailyClose|ERROR|0000|B620|0|ERROR 0|
+@DailyClose|ERROR|0000|8620|0|ERROR 0|

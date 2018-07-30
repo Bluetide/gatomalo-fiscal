@@ -68,4 +68,4 @@ class Producto:
         if self.descuento > 0:
           return "%s%010d%05d%03d%s\n%s" % ('@PrintLineItem|',self.get_tasa(),price_as_cents,self.cantidad,0,self.nombre,self.get_descuento())
         else:
-          return "\n".join(['@PrintLineItem|'+ self.nombre[:20] + '|' + str(self.cantidad) + '|'+ price_as_cents[:11] + '|' + self.get_tasa() + '|M|'+''])
+          return "\n".join(['@PrintLineItem|'+ self.nombre[:20] + '|' + str(self.cantidad) + '|'+ price_as_cents[:11] + '|' + self.get_tasa() + '|M'])

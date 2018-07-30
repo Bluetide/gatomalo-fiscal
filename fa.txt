@@ -1,0 +1,3 @@
+@OpenFiscalReceipt|cliente SA|ruc00000|||||A
+@PrintLineItem|Mantenimiento de Loc|1.0|1.00|07.00|M
+@CloseFiscalReceipt|N
