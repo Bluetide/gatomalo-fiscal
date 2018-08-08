@@ -4,7 +4,7 @@ Integración opensource con factura fiscal de Panamá
 ## Instalación en linux
 El instalador de Linux corre un script que descarga las dependencias e instala GATOMALO como un servicio de linux.
 ```bash
-curl -sSL https://github.com/bluetide/gatomalo-fiscal/blob/master/setup.sh | bash
+curl -sSL https://raw.githubusercontent.com/Bluetide/gatomalo-fiscal/master/setup.sh | bash
 ```
 
 ## Instalación usando source
