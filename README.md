@@ -21,10 +21,10 @@ curl -sSL https://raw.githubusercontent.com/Bluetide/gatomalo-fiscal/master/setu
 
 2. Configurar variables de entorno
   ```bash
-  export zoho_auth='xyz'
-  export zoho_org='xyz'
-  export admin_username='admin'
-  export admin_password='somethingyoucanrememberbutitsnotsohardtoguess'
+  export ZOHO_AUTH='xyz'
+  export ZOHO_ORG='xyz'
+  export ADMIN_USERNAME='admin'
+  export ADMIN_PASSWORD='somethingyoucanrememberbutitsnotsohardtoguess'
   ```
 
 6. Ejecutar gatomalo
