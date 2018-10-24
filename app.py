@@ -66,8 +66,8 @@ def parse_productos_from_post(post):
 
 @app.route('/facturas_api', methods = ['POST'])
 def make_factura():
-    session = session_maker()
     print(request.json)
+    session = db_worker.session_maker()
     if request.json and 'factura' in request.json:
         productos = request.json['factura']['productos']
         cliente =  request.json['factura']['cliente']

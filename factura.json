@@ -1,0 +1,24 @@
+{
+  "factura": {
+    "cliente": { 
+      "empresa":"BlueTide Web Consulting",
+      "direccion":"Ciudad del Saber",
+      "telefono":"215-1515",
+      "ruc":"8548245-2016 DV 38"
+    },
+    "productos": [
+      {
+        "nombre":"gsuite licencias (sin itmbs)",
+        "cantidad":5,
+        "tasa":0,
+        "precio":55
+      },
+      {
+        "nombre":"pagina web",
+        "cantidad":1,
+        "tasa":1,
+        "precio":999.99
+      }
+    ]
+  }
+}
