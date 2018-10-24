@@ -10,6 +10,7 @@ from flask import redirect
 from flask import url_for
 from modules import printer
 from modules import cloud_accounting
+from modules import db_worker
 import os
 import json
 from functools import wraps
@@ -48,6 +49,41 @@ def requires_auth(f):
             return authenticate()
         return f(*args, **kwargs)
     return decorated
+
+def parse_cliente_from_post(post):
+    empresa = post.form['factura[cliente][empresa]']
+    direccion = post.form['factura[cliente][direccion]']
+    telefono = post.form['factura[cliente][telefono]']
+    ruc = post.form['factura[cliente][ruc]']
+    return { 'empresa':empresa,'direccion':direccion,'telefono':telefono,'ruc':ruc }
+
+def parse_productos_from_post(post):
+    nombre = post.form['factura[productos][nombre]']
+    cantidad = post.form['factura[productos][cantidad]']
+    tasa = post.form['factura[productos][tasa]']
+    precio = post.form['factura[productos][precio]']
+    return { 'nombre':nombre,'cantidad':cantidad,'tasa':tasa,'precio':precio }
+
+@app.route('/facturas_api', methods = ['POST'])
+def make_factura():
+    session = session_maker()
+    print(request.json)
+    if request.json and 'factura' in request.json:
+        productos = request.json['factura']['productos']
+        cliente =  request.json['factura']['cliente']
+    elif request.form:
+        cliente = parse_cliente_from_post(request)
+        productos = parse_productos_from_post(request)
+    else:
+        abort(400)
+    try:
+        factura,productos,cliente = db_worker.create_factura(session,cliente,productos)
+    except Exception as e:
+            raise(e)
+            session.rollback()
+    printer.write_string_to_printer(str(factura))
+    return str(factura)
+
 
 @app.route('/')
 @app.route('/<page>')
