@@ -1,7 +1,7 @@
 from sqlalchemy.orm import deferred
 from sqlalchemy import Column, Integer, Sequence, Date, ForeignKey
 from sqlalchemy.orm import relationship,backref
-from sqlalchemy.types import Unicode, UnicodeText, BigInteger, Date, Numeric
+from sqlalchemy.types import Unicode, UnicodeText, BigInteger, Date, Numeric, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.sql import exists
 from sqlalchemy.orm import sessionmaker
@@ -23,6 +23,8 @@ class Factura(Base):
     id = Column(Integer, Sequence('factura_id_seq'), primary_key=True)
     nota_de_credito = relationship('NotaDeCredito', uselist=False, backref='factura')
     cliente_id = Column(Integer, ForeignKey('clientes.id'))
+    zoho_id = Column(Integer)
+    print_date = Column(DateTime)
     descuento = Column(Integer)
     productos = relationship('Producto')
     cliente = relationship('Cliente')
