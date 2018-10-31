@@ -59,6 +59,13 @@ def index(page=1):
     return render_template('index.html',
         invoices=invoice_list, printed=printed_invoices, page_context=page_context)
 
+@app.route('/info/<invoice_id>')
+@requires_auth
+def info(invoice_id):
+    factura = cloud_accounting.show_info(invoice_id)
+    return jsonify(data=str(factura))
+    # return render_template('show.html',data=factura)
+
 @app.route('/print_today')
 @requires_auth
 def print_today():

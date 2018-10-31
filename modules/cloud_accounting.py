@@ -46,6 +46,14 @@ def parse_productos_from_post(post):
     precio = post.form['factura[productos][precio]']
     return { 'nombre':nombre,'cantidad':cantidad,'tasa':tasa,'precio':precio }
 
+def parse_info_data(data):
+    data["invoice"]["customer_name"]
+    data["invoice"]["invoice_id"]
+    data["invoice"]["status"]
+    return data
+def show_info(invoice_id):
+    parse_detail = parse_info_data(invoice_id)
+    return parse_detail
 def parse_invoice_data(data):
 
     #Get variables
@@ -71,6 +79,7 @@ def parse_invoice_data(data):
     except Exception as e:
         # Safe defaults
         client_model = Cliente(empresa=customer_name, direccion=address)
+        print(client_model)
 
     # Build Models
     invoice_model = Factura(invoice_id, client_model, global_discount)
