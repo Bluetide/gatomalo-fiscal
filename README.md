@@ -39,7 +39,7 @@ curl -sSL https://raw.githubusercontent.com/Bluetide/gatomalo-fiscal/master/setu
 
 1. To send a Factura JSON:
   ```bash
-  curl http://localhost:5000/facturas --data     @fact.json -H 'Content-Type: application/json'
+  curl http://localhost:5000/facturas_api --data     @fact.json -H 'Content-Type: application/json'
   ```
 
 2. To print Reporte X y Z
@@ -51,8 +51,9 @@ curl -sSL https://raw.githubusercontent.com/Bluetide/gatomalo-fiscal/master/setu
 
 3. to create a Nota de Credito (devolucion)
   ```bash
-  curl http://192.168.1.3:5000/nota --data     @dev.json -H 'Content-Type: application/json'
+   curl http://192.168.1.3:5000/nota --data     @dev.json -H 'Content-Type: application/json'
   ```
+  Si la impresion fue de manera manual, hay que hacer una nota de credito con los campos necesarios, y enviarlo manual ejecutando desde la consola el comando de la impresora.
 
 4. dev.json default format:
     factura_id: es el número que se encuentra en localhost:5000/facturas

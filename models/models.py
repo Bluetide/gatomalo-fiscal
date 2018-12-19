@@ -118,6 +118,8 @@ class Cliente(Base):
 class NotaDeCredito(Base):
     __tablename__ = 'notas_de_credito'
     id = Column(Integer, Sequence('nota_de_credito_id_seq'), primary_key=True)
+    zoho_id = Column(Unicode)
+    print_date = Column(DateTime)
     factura_id = Column(Integer, ForeignKey('facturas.id'), unique=True)
     legacy_id = Column(Integer)
     created_at = Column(Date, default=datetime.now)

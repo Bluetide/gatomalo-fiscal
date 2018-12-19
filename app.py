@@ -147,7 +147,7 @@ def post_credit_note():
         # Return response
         return jsonify(data=str(nota_credito))
 
-@app.route('/facturas', methods = ['GET'])
+@app.route('/facturas', methods = ['GET','POST'])
 @requires_auth
 def get_facturas():
     return jsonify(data=cloud_accounting.get_invoice_list())
