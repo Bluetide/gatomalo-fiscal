@@ -1,17 +1,17 @@
 {
   "factura": {
     "cliente": {
-      "empresa":"Distribuidora David Ford Motor Company, S.A.",
-      "direccion":"Edificio Ford",
-      "telefono":"366-1370",
-      "ruc":"503455-1-436018 DV 46"
+      "empresa":"Dummy Customer",
+      "direccion":"Edificio Dummy",
+      "telefono":"xxx-xxxx",
+      "ruc":"xxxxxxx-1-xxxxxx DV xx"
     },
     "productos": [
       {
-        "nombre":"Campaña Digital Todo Incluido - Plan Starter",
+        "nombre":"Dummy Donson",
         "cantidad":1,
         "tasa":1,
-        "precio":990
+        "precio":23124123123
       }
     ]
   }
