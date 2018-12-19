@@ -54,6 +54,10 @@ curl -sSL https://raw.githubusercontent.com/Bluetide/gatomalo-fiscal/master/setu
    curl http://192.168.1.3:5000/nota --data     @dev.json -H 'Content-Type: application/json'
   ```
   Si se realizo una impresion manual previamente, hay que enviar una nota de credito de forma manual con los campos necesarios.
+  Para ejecutar el comando de la impresora enviandole el archivo txt (raw)
+  ```bash
+    sudo ./tfunilx SendCmdFile <archivo.txt>
+  ```
 
 4. dev.json default format:
     factura_id: es el número que se encuentra en localhost:5000/facturas
@@ -75,11 +79,13 @@ curl -sSL https://raw.githubusercontent.com/Bluetide/gatomalo-fiscal/master/setu
     ```
 
 ## Credits
-Ivan Barria Grimaldo @ibarria0
+Ivan Barria Grimaldo [@ibarria0](https://github.com/ibarria0)
 
-Roberto Zubieta @zubietaroberto
+Roberto Zubieta [@zubietaroberto](https://github.com/zubietaroberto)
 
-Carlos Raul Piad @Carlospiad
+Carlos Raul Piad [@Carlospiad](https://github.com/Carlospiad)
+
+Efrain Lay [@EfrainLayCastillo](https://github.com/EfrainLayCastillo)
 
 Special thanks to:
 - Cat designed by <a href="http://www.thenounproject.com/misirlou">misirlou</a> from the <a href="http://www.thenounproject.com">Noun Project</a>
