@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -44,53 +44,7 @@
         </div><!--/.nav-collapse -->
       </div>
     </nav>
-
-
-
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="detail">
-            <h1>{{data.invoice.customer_name}}</h1>
-            <span class="id_customer">id: {{data.invoice.customer_id}}</span>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <table class="table">
-            <thead class="thead-dark">
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Description</th>
-                <th scope="col">Status</th>
-                <th scope="col">Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+    <div id="content">{% block content %}{% endblock %}</div>
 
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -98,5 +52,59 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/typeahead.bundle.min.js') }}"></script>
+    <script>
+        //var audio = new Audio('{{ url_for('static', filename='audio/gatomalo.mp3') }}');
+        // Sad Trombone by Joe Lamb. CC Attribution. Source: http://soundbible.com/1830-Sad-Trombone.html
+        //var audio2 = new Audio('{{ url_for('static', filename='audio/sad.mp3') }}');
+
+        jQuery(function($){
+
+          // Setup the invoice ID dialog when the user clicks a Credit Note button
+          var getFiscalIDDialog = $('#getFiscalIDDialog');
+          getFiscalIDDialog.on('show.bs.modal', function(event){
+            var button = $(event.relatedTarget);
+            $("#getFiscalIDDialog #invoice_id").val(button.data("id"));
+          });
+
+          // Setup the POST for the Invoice ID dialog
+          $("#getFiscalIDDialog .submit").click(function(){
+            getFiscalIDDialog.modal('hide');
+            myApp.showPleaseWait();
+            $.post("/nota_credito", $("#getFiscalIDDialog .form").serialize())
+              .done(function(data){ myApp.hidePleaseWait(); location.reload(true); })
+              .error(function(data){ alert(data.responseText); })
+              ;
+          });
+
+          // Setup 'Print' Button
+          $('.print_button').click(function(evn){
+              if (confirm('Confirmar impresion de factura')) {
+                  myApp.showPleaseWait();
+		  $.get('/print_gatomalo/' + $(evn.toElement).data('id'))
+		    .done(function(data){ myApp.hidePleaseWait(); location.reload(true); })
+		    .error(function(data){ alert(data.responseText); })
+		  ;
+	      } else {
+                  return false;
+              }
+          });
+        });
+
+	var myApp;
+	myApp = myApp || (function () {
+	    var pleaseWaitDiv = $('#pleaseWaitDialog')
+	    return {
+		showPleaseWait: function() {
+		    pleaseWaitDiv.modal();
+		    $(".progress-bar").animate({width: "100%"}, 5000);
+		},
+		hidePleaseWait: function () {
+		    pleaseWaitDiv.modal('hide');
+		},
+
+	    };
+	})();
+    </script>
+
   </body>
 </html>

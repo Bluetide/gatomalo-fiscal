@@ -95,12 +95,17 @@ def index(page=1):
     return render_template('index.html',
         invoices=invoice_list, printed=printed_invoices, page_context=page_context)
 
+# elay working to see invoice details through api cloud counting
 @app.route('/info/<invoice_id>')
 @requires_auth
 def info(invoice_id):
-    factura = cloud_accounting.show_info(invoice_id)
-    return jsonify(data=str(factura))
-    # return render_template('show.html',data=factura)
+    factura = cloud_accounting.get_invoice_detail(invoice_id)
+    json.dumps(factura)
+    print(factura)
+
+    # return jsonify(data=str(factura))
+    return render_template('show.html',data=factura)
+# end funct
 
 @app.route('/print_today')
 @requires_auth
