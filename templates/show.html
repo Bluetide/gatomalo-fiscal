@@ -10,7 +10,8 @@
     <title>Zoho2Gato</title>
 
     <!-- Bootstrap -->
-    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/gatomalo.css">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -26,28 +27,34 @@
   </style>
   </head>
   <body>
-    <nav class="navbar navbar-inverse">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">GatoMalo</a>
-        </div>
-        <div id="navbar" class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
+        <a class="navbar-brand" href="/">
+          <img src="/static/img/navbar.png" width="30" height="30" alt="">
+          GatoMalo
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item active">
+              <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#">None</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#">None</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+            </li>
           </ul>
-        </div><!--/.nav-collapse -->
+        </div>
       </div>
     </nav>
-
-
-
-    <div class="container">
+    <div class="container pt-5">
       <div class="row">
         <div class="col-md-12">
           <div class="detail">
@@ -55,36 +62,67 @@
             <span class="id_customer">id: {{data.invoice.customer_id}}</span>
           </div>
         </div>
+        <div class="col-md-6">
+          <hr>
+          <nav class="nav color_box_grey">
+            <a class="nav-link" href="#">First Name:
+              <span class="info_nav">
+              {{data.invoice.contact_persons_details[0].first_name}}
+            </span> </a>
+            <a class="nav-link" href="#">Email:
+              <span class="info_nav">
+              {{data.invoice.contact_persons_details[0].email}}
+            </span> </a>
+            <a class="nav-link" href="#">Mobile:
+              <span class="info_nav">
+              {{data.invoice.contact_persons_details[0].mobile}}
+            </span> </a>
+            <a class="nav-link" href="#">Phone:
+              <span class="info_nav">
+              {{data.invoice.contact_persons_details[0].phone}}
+            </span> </a>
+          </nav>
+        </div>
+        <div class="col-md-6">
+          <hr>
+          <nav class="nav box_action">
+            <a class="btn btn-info" target="_blank" href="{{data.invoice.invoice_url}}">Proforma</a>
+            <a class="btn btn-success" href="#">Print</a>
+          </nav>
+        </div>
       </div>
       <div class="row">
         <div class="col-md-12">
+          <hr>
+        </div>
+        {%for item in data.invoice.line_items%}
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-body">
+              <p class="card-text">{{item.description}}</p>
+              <p class="card-text"><small class="text-muted">Line id: {{item.line_item_id}}</small></p>
+            </div>
+            <div class="card-footer">
+              <small class="text-muted">Tax: {{item.tax_percentage}}%</small>
+              <small class="text-muted float-right">Price: ${{item.item_total}}</small>
+            </div>
+          </div>
+        </div>
+        {%endfor%}
+        <div class="col-md-12 pt-5">
           <table class="table">
-            <thead class="thead-dark">
+            <thead>
               <tr>
-                <th scope="col">#</th>
-                <th scope="col">Description</th>
-                <th scope="col">Status</th>
+                <th scope="col">Subtotal</th>
+                <th scope="col">Tax</th>
                 <th scope="col">Total</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
+                <th scope="row">${{data.invoice.sub_total}}</th>
+                <td>${{data.invoice.tax_total}}</td>
+                <td>${{data.invoice.total}}</td>
               </tr>
             </tbody>
           </table>
@@ -92,11 +130,11 @@
       </div>
     </div>
 
-
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
     <script src="{{ url_for('static', filename='js/typeahead.bundle.min.js') }}"></script>
   </body>
 </html>
