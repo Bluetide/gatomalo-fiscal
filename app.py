@@ -101,10 +101,20 @@ def index(page=1):
 def info(invoice_id):
     factura = cloud_accounting.get_invoice_detail(invoice_id)
     json.dumps(factura)
-    print(factura)
-
-    # return jsonify(data=str(factura))
     return render_template('show.html',data=factura)
+
+@app.route('/custom_ivoice')
+@requires_auth
+def customInvoice():
+    return render_template('custom.html')
+
+@app.route('/custom_invoice_api', methods = ['POST'])
+@requires_auth
+def customform():
+    print(request.json)
+    productos = request.json['factura']['productos']
+    cliente =  request.json['factura']['cliente']
+    return factura
 # end funct
 
 @app.route('/print_today')

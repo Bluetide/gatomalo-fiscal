@@ -39,7 +39,8 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
+            <li class="active"><a href="/">Home</a></li>
+            <li class=""><a href="/custom_ivoice">Custom Invoice</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -75,8 +76,8 @@
           <td>{{ invoice.date }}</td>
           <td>
             <a
-            class="btn btn-xs btn-success"
-            href="/info/{{ invoice.invoice_id }}">Info</a>
+            class="btn btn-xs btn-primary"
+            href="/info/{{ invoice.invoice_id }}">Detail</a>
           </td>
           <td>
             <a
@@ -189,8 +190,8 @@
               if (confirm('Confirmar impresion de factura')) {
                   myApp.showPleaseWait();
 		  $.get('/print_gatomalo/' + $(evn.toElement).data('id'))
-		    .done(function(data){ myApp.hidePleaseWait(); location.reload(true); })
-		    .error(function(data){ alert(data.responseText); })
+		    .done(function(data){ console.log(data); myApp.hidePleaseWait(); location.reload(true); })
+		    .error(function(data){ console.log(data);alert(data.status); })
 		  ;
 	      } else {
                   return false;

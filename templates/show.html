@@ -42,7 +42,7 @@
               <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link disabled" href="#">None</a>
+              <a class="nav-link" href="/custom_ivoice">Custom Invoice</a>
             </li>
             <li class="nav-item">
               <a class="nav-link disabled" href="#">None</a>
@@ -67,7 +67,7 @@
           <nav class="nav color_box_grey">
             <a class="nav-link" href="#">First Name:
               <span class="info_nav">
-              {{data.invoice.contact_persons_details[0].first_name}}
+              {{data.invoice.contact_persons_details[0].first_name}} {{data.invoice.contact_persons_details[0].last_name}}
             </span> </a>
             <a class="nav-link" href="#">Email:
               <span class="info_nav">
@@ -111,7 +111,7 @@
         {%endfor%}
         <div class="col-md-12 pt-5">
           <table class="table">
-            <thead>
+            <thead  class="thead-dark">
               <tr>
                 <th scope="col">Subtotal</th>
                 <th scope="col">Tax</th>
