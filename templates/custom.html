@@ -58,7 +58,7 @@
      <div class="row">
        <div class="col-md-8 ">
          <h1>Custom Invoice Form</h1>
-         <form id="invoice" class="mt-5" method="post" action="custom_invoice_api">
+         <form id="invoice" class="mt-5" method="post" action="/custom_invoice_api">
            <div class="form-row">
               <div class="form-group col-md-12">
                 <label for="inputtext">Razon Social</label>
@@ -81,71 +81,74 @@
                 <input type="text" class="form-control" id="inputZip" name="telefono">
               </div>
             </div>
-<!-- impuesto -->
-        <fieldset class="form-group">
-            <div class="row">
-              <legend class="col-form-label col-sm-12 pt-0">Tax</legend>
-              <div class="col-sm-10  col-md-4">
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="tax" id="gridRadios1" value="option1" checked>
-                  <label class="form-check-label" for="gridRadios1">
-                    0 %
-                  </label>
-                </div>
-              </div>
-              <div class=" col-md-4">
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
-                  <label class="form-check-label" for="gridRadios2">
-                    7 %
-                  </label>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="form-check disabled">
-                  <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="option3" disabled>
-                  <label class="form-check-label" for="gridRadios3">
-                    Custom %
-                  </label>
-                </div>
-              </div>
-            </div>
-          </fieldset>
+
           <div class="col-md-12">
             <button type="button" id="add" class="btn btn-secondary btn-lg btn-block">Agregar articulos</button>
           </div>
 <!-- text area -->
-          <div class="form-row" id="article_box">
-            <div class="form-group col-md-4">
-              <div class="form-group col-md-12">
-                <label for="inputCity">Precio</label>
-                <div class="input-group mb-2">
-                   <div class="input-group-prepend">
-                     <div class="input-group-text">$</div>
+          <div class="itemsbox" id="article_box">
+            <div class="form-row" id="clone">
+          <div class="col-md-12">
+          <!-- impuesto -->
+            <fieldset class="form-group">
+                <div class="row">
+                  <legend class="col-form-label col-sm-12 pt-0">Tax</legend>
+                  <div class="col-sm-10  col-md-4">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="tax" id="gridRadios1" value="0">
+                      <label class="form-check-label" for="gridRadios1">
+                        0 %
+                      </label>
+                    </div>
+                  </div>
+                  <div class=" col-md-4">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="tax" id="gridRadios2" value="1">
+                      <label class="form-check-label" for="gridRadios2">
+                        7 %
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-check disabled">
+                      <input class="form-check-input" type="radio" name="tax" id="gridRadios3" value="custom" disabled>
+                      <label class="form-check-label" for="gridRadios3">
+                        Custom %
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+          </div>
+              <div class="form-group col-md-4">
+                <div class="form-group col-md-12">
+                  <label for="inputCity">Precio</label>
+                  <div class="input-group mb-2">
+                     <div class="input-group-prepend">
+                       <div class="input-group-text">$</div>
+                     </div>
+                     <input type="number" class="form-control" id="inlineFormInputGroup" name="precio">
                    </div>
-                   <input type="number" class="form-control" id="inlineFormInputGroup" name="precio">
+                </div>
+                <div class="form-group col-md-12">
+                  <label for="inputCity">Cantidad</label>
+                  <select class="custom-select" name="cantidad">
+                    <option selected>Select</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                  </select>
+                </div>
+              </div>
+                 <div class="form-group col-md-8">
+                   <label for="inputCity">Articulo</label>
+                   <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" name="articulo"></textarea>
                  </div>
-              </div>
-              <div class="form-group col-md-12">
-                <label for="inputCity">Cantidad</label>
-                <select class="custom-select" name="cantidad">
-                  <option selected>Select</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                </select>
-              </div>
             </div>
-               <div class="form-group col-md-8">
-                 <label for="inputCity">Articulo</label>
-                 <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" name="articulo"></textarea>
-               </div>
-
            </div>
-
            <button type="submit" class="btn btn-primary">Imprimir</button>
           </form>
        </div>
