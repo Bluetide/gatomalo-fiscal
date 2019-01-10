@@ -1,4 +1,3 @@
-$(function(){
   $('#invoice').submit(function(e){
     e.preventDefault();
     // var dataJson = JSON.stringify($('#invoice').serializeArray());
@@ -37,30 +36,20 @@ $(function(){
     //     "precio":23124123123
     //   }
     // );
-    // var jsonBox = items(jsonData);
+    items(jsonData);
     // console.log(jsonBox);
     // send json data to the backend
     $.ajax({
-      url: "/custom_invoice_api",
       type: "POST",
-      data: jsonData,
-      // contentType: "application/json; charset=utf-8",
-      // dataType: "json",
+      url: "custom_invoice_api",
+      data: JSON.stringify(jsonData),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
       success: function(data){
-        console.log(data);
-      },
-      error: function(err){
-        console.log(err);
-      }
-    });
-
+      console.log(data);
+    }});
     console.log(jsonData);
   });
-
-
-
-
-
 
 var wrapper = $("#article_box"); //Fields wrapper
 var limitItems = 0;
@@ -107,7 +96,7 @@ function items(jsonData){
     var textarea = $(this).find("textarea").val();
     var precio = $(this).find("input[type=number]").val();
     var cantidad = $(this).find("select[name=cantidad]").val();
-    var tasa = $(this).find("input[name=tax]:checked").val();
+    var tasa = $("#clone").find("input[name=tax]:checked").val();
 
     jsonData.factura["productos"].push(
       {
@@ -117,7 +106,6 @@ function items(jsonData){
         "precio":precio
       }
     );
+    return jsonData;
   });
 }
-
-});

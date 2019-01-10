@@ -111,16 +111,26 @@ def customInvoice():
 @app.route('/custom_invoice_api', methods = ['POST'])
 @requires_auth
 def customform():
-        print(request.json)
-        print(json.JSONEncoder().encode(response.form))
+        # print(request.form)
+        # print("Esto es el json")
+        # clean = json.dumps(request.form)
+        # print(clean)
+        # print(json.JSONEncoder().encode(response.form))
+        # print("data")
+        # print(request.data)
+        print("force")
+        print(request.get_json())
         session = db_worker.session_maker()
         if request.json and 'factura' in request.json:
+            print("json")
             productos = request.json['factura']['productos']
             cliente =  request.json['factura']['cliente']
         elif request.form:
+            print("form")
             cliente = parse_cliente_from_post(request)
             productos = parse_productos_from_post(request)
         else:
+            print("failed")
             abort(400)
         try:
             factura,productos,cliente = db_worker.create_factura(session,cliente,productos)
