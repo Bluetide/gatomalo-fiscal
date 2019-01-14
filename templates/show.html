@@ -56,77 +56,75 @@
     </nav>
     <div class="container pt-5">
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-8">
           <div class="detail">
             <h1>{{data.invoice.customer_name}}</h1>
             <span class="id_customer">id: {{data.invoice.customer_id}}</span>
           </div>
-        </div>
-        <div class="col-md-6">
           <hr>
-          <nav class="nav color_box_grey">
-            <a class="nav-link" href="#">First Name:
-              <span class="info_nav">
-              {{data.invoice.contact_persons_details[0].first_name}} {{data.invoice.contact_persons_details[0].last_name}}
-            </span> </a>
-            <a class="nav-link" href="#">Email:
-              <span class="info_nav">
-              {{data.invoice.contact_persons_details[0].email}}
-            </span> </a>
-            <a class="nav-link" href="#">Mobile:
-              <span class="info_nav">
-              {{data.invoice.contact_persons_details[0].mobile}}
-            </span> </a>
-            <a class="nav-link" href="#">Phone:
-              <span class="info_nav">
-              {{data.invoice.contact_persons_details[0].phone}}
-            </span> </a>
-          </nav>
-        </div>
-        <div class="col-md-6">
-          <hr>
-          <nav class="nav box_action">
-            <a class="btn btn-info" target="_blank" href="{{data.invoice.invoice_url}}">Proforma</a>
-            <a class="btn btn-success" href="#">Print</a>
-          </nav>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <hr>
-        </div>
-        {%for item in data.invoice.line_items%}
-        <div class="col-md-4">
-          <div class="card">
-            <div class="card-body">
-              <p class="card-text">{{item.description}}</p>
-              <p class="card-text"><small class="text-muted">Line id: {{item.line_item_id}}</small></p>
+          <div class="row">
+            {%for item in data.invoice.line_items%}
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-body">
+                  <p class="card-text">{{item.description}}</p>
+                  <p class="card-text"><small class="text-muted">Line id: {{item.line_item_id}}</small></p>
+                </div>
+                <div class="card-footer">
+                  <small class="text-muted">Tax: {{item.tax_percentage}}%</small>
+                  <small class="text-muted float-right">Price: ${{item.item_total}}</small>
+                </div>
+              </div>
             </div>
-            <div class="card-footer">
-              <small class="text-muted">Tax: {{item.tax_percentage}}%</small>
-              <small class="text-muted float-right">Price: ${{item.item_total}}</small>
+            {%endfor%}
+          </div>
+          <div class="row mt-5">
+            <div class="col-md-12">
+              <table class="table">
+                <thead  class="thead-dark">
+                  <tr>
+                    <th scope="col">Subtotal</th>
+                    <th scope="col">Tax</th>
+                    <th scope="col">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">${{data.invoice.sub_total}}</th>
+                    <td>${{data.invoice.tax_total}}</td>
+                    <td>${{data.invoice.total}}</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
-        {%endfor%}
-        <div class="col-md-12 pt-5">
-          <table class="table">
-            <thead  class="thead-dark">
-              <tr>
-                <th scope="col">Subtotal</th>
-                <th scope="col">Tax</th>
-                <th scope="col">Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">${{data.invoice.sub_total}}</th>
-                <td>${{data.invoice.tax_total}}</td>
-                <td>${{data.invoice.total}}</td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="col-md-4">
+          <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
+            <div class="card-header info_title">Custom Fields</div>
+            <div class="card-body info">
+                <p>Razon Social: </p><span>{{contact_invoice[0].RazonSocial}}</span>
+                <p>RUC: </p><span>{{contact_invoice[1].RUC}}</span>
+                <p>DV: </p><span>{{contact_invoice[2].DV}}</span>
+            </div>
+            <div class="card-header info_title">Contact Info Invoice</div>
+            <div class="card-body info">
+                <p>First Name: </p><span>{{data.invoice.contact_persons_details[0].first_name}} {{data.invoice.contact_persons_details[0].last_name}}</span>
+                <p>Email: </p><span>{{data.invoice.contact_persons_details[0].email}}</span>
+                <p>Mobile: </p><span>{{data.invoice.contact_persons_details[0].mobile}}</span>
+                <p>Phone: </p><span>{{data.invoice.contact_persons_details[0].phone}}</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <a class="btn btn-info" href="{{data.invoice.invoice_url}}" role="button">Proforma</a>
+            </div>
+            <div class="col-md-6">
+              <a class="btn btn-success" href="#">Print</a>
+            </div>
+          </div>
         </div>
+
       </div>
     </div>
 
