@@ -2,14 +2,14 @@
 Description="GatoMalo Server"
 
 [Service]
+Environment="ZOHO_AUTH=3978e2966ba80474281580caf6c99e44"
+Environment="ZOHO_ORG=667429349"
+Environment="ADMIN_USERNAME=Bluetide"
+Environment="ADMIN_PASSWORD=megustaresolver"
 Type=simple
-User=ubuntu
+User=btc
 WorkingDirectory=/gatomalo
-ExecStart=/gatomalo/bin/python /gatomalo/app.py
-Environment=zoho_auth=11111
-Environment=zoho_org=11111
-Environment=admin_username=1111
-Environment=admin_password=1111
+ExecStart=/gatomalo/venv/bin/python /gatomalo/app.py
 
 [Install]
 WantedBy=multi-user.target
