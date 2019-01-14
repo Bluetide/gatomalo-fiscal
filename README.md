@@ -56,7 +56,7 @@ curl -sSL https://raw.githubusercontent.com/Bluetide/gatomalo-fiscal/master/setu
   Si se realizo una impresion manual previamente, hay que enviar una nota de credito de forma manual con los campos necesarios.
   Para ejecutar el comando de la impresora enviandole el archivo txt (raw)
   ```bash
-    sudo ./tfunilx SendCmdFile <archivo.txt>
+    sudo ./tfunilx SendFileCmd <archivo.txt>
   ```
 
 4. dev.json default format:
