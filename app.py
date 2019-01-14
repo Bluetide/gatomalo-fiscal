@@ -95,13 +95,14 @@ def index(page=1):
     return render_template('index.html',
         invoices=invoice_list, printed=printed_invoices, page_context=page_context)
 
-# elay working to see invoice details through api cloud counting
+# elay working to show invoice details through api cloud counting
 @app.route('/info/<invoice_id>')
 @requires_auth
 def info(invoice_id):
     factura = cloud_accounting.get_invoice_detail(invoice_id)
+    contact = cloud_accounting.get_contact_custom_detail(factura)
     json.dumps(factura)
-    return render_template('show.html',data=factura)
+    return render_template('show.html',data=factura, contact_invoice = contact)
 
 @app.route('/custom_ivoice')
 @requires_auth
@@ -111,26 +112,15 @@ def customInvoice():
 @app.route('/custom_invoice_api', methods = ['POST'])
 @requires_auth
 def customform():
-        # print(request.form)
-        # print("Esto es el json")
-        # clean = json.dumps(request.form)
-        # print(clean)
-        # print(json.JSONEncoder().encode(response.form))
-        # print("data")
-        # print(request.data)
-        print("force")
         print(request.get_json())
         session = db_worker.session_maker()
         if request.json and 'factura' in request.json:
-            print("json")
             productos = request.json['factura']['productos']
             cliente =  request.json['factura']['cliente']
         elif request.form:
-            print("form")
             cliente = parse_cliente_from_post(request)
             productos = parse_productos_from_post(request)
         else:
-            print("failed")
             abort(400)
         try:
             factura,productos,cliente = db_worker.create_factura(session,cliente,productos)
@@ -189,7 +179,7 @@ def post_credit_note():
         invoice = cloud_accounting.get_invoice(invoice_id)
         nota_credito = NotaDeCredito(fiscal_id, invoice)
         nota_credito.print()
-
+        print(jsonify(nota_credito))
         # Return response
         return jsonify(data=str(nota_credito))
 

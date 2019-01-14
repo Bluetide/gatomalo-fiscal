@@ -20,3 +20,20 @@
 .box_action a{
   margin: 5px;
 }
+.info p{
+  font-size: 14px;
+  margin: 0;
+  font-weight: 600;
+}
+.info span{
+  font-size: 14px;
+  margin-bottom: 12px;
+  display: block;
+  margin-left: 5px;
+  line-height: 26px;
+}
+.info_title{
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 16px;
+}
