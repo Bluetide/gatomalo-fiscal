@@ -79,8 +79,6 @@ def parse_invoice_data(data):
     except Exception as e:
         # Safe defaults
         client_model = Cliente(empresa=customer_name, direccion=address)
-        print(client_model)
-
     # Build Models
     invoice_model = Factura(invoice_id, client_model, global_discount)
     invoice_model.productos = [translate_product(p) for p in data["invoice"]["line_items"]]
@@ -178,6 +176,4 @@ def get_contact_custom_detail(data):
             dv = cf['value']
             box.append({'DV': dv})
     json.dumps(box)
-    print(box)
-
     return box

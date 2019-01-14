@@ -41,7 +41,7 @@
     // send json data to the backend
     $.ajax({
       type: "POST",
-      url: "/custom_invoice_api",
+      url: "/custom_refund_api",
       data: JSON.stringify(jsonData),
       contentType: "application/json; charset=utf-8",
       dataType: "json",
