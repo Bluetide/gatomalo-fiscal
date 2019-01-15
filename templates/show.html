@@ -105,7 +105,13 @@
             <div class="card-body info">
                 <p>Razon Social: </p><span>{{contact_invoice[0].RazonSocial}}</span>
                 <p>RUC: </p><span>{{contact_invoice[1].RUC}}</span>
-                <p>DV: </p><span>{{contact_invoice[2].DV}}</span>
+                {%if contact_invoice[2].DV %}
+                  <p>DV: </p><span>{{contact_invoice[2].DV}}</span>
+                  {%else%}
+                  <p>Empty</p>
+                {%endif%}
+
+
             </div>
             <div class="card-header info_title">Contact Info Invoice</div>
             <div class="card-body info">
