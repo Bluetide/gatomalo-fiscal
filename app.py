@@ -77,6 +77,7 @@ def make_factura():
     else:
         abort(400)
     try:
+
         factura,productos,cliente = db_worker.create_factura(session,cliente,productos)
     except Exception as e:
             raise(e)
@@ -92,6 +93,7 @@ def index(page=1):
     invoice_list, page_context = cloud_accounting.get_invoice_list(page)
     json.dumps(invoice_list)
     printed_invoices = set([f.zoho_id for f in db_session.query(Factura).all()])
+    print(printed_invoices)
     return render_template('index.html',
         invoices=invoice_list, printed=printed_invoices, page_context=page_context)
 
@@ -198,7 +200,7 @@ def post_credit_note():
         invoice = cloud_accounting.get_invoice(invoice_id)
         nota_credito = NotaDeCredito(fiscal_id, invoice)
         nota_credito.print()
-        print(jsonify(nota_credito))
+        #print(jsonify(nota_credito))
         # Return response
         return jsonify(data=str(nota_credito))
 
