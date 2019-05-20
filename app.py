@@ -45,6 +45,7 @@ def requires_auth(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         auth = request.authorization
+        print(auth)
         if not auth or not check_auth(auth.username, auth.password):
             return authenticate()
         return f(*args, **kwargs)
@@ -66,7 +67,7 @@ def parse_productos_from_post(post):
 
 @app.route('/facturas_api', methods = ['POST'])
 def make_factura():
-    print(request.json)
+    #print(request.json)
     session = db_worker.session_maker()
     if request.json and 'factura' in request.json:
         productos = request.json['factura']['productos']
@@ -93,7 +94,7 @@ def index(page=1):
     invoice_list, page_context = cloud_accounting.get_invoice_list(page)
     json.dumps(invoice_list)
     printed_invoices = set([f.zoho_id for f in db_session.query(Factura).all()])
-    print(printed_invoices)
+    #print(printed_invoices)
     return render_template('index.html',
         invoices=invoice_list, printed=printed_invoices, page_context=page_context)
 
@@ -196,9 +197,10 @@ def post_credit_note():
         abort(400)
     else:
 
-        # Get the invoice from remote server
+        # Get the invoice from remote serverer
         invoice = cloud_accounting.get_invoice(invoice_id)
         nota_credito = NotaDeCredito(fiscal_id, invoice)
+        print(nota_credito)
         nota_credito.print()
         #print(jsonify(nota_credito))
         # Return response
@@ -215,6 +217,10 @@ def reporteX():
 def reporteZ():
     printer.write_string_to_printer('I0Z')
     return redirect(url_for('index'))
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0')
