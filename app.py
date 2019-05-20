@@ -107,10 +107,10 @@ def info(invoice_id):
     json.dumps(factura)
     return render_template('show.html',data=factura, contact_invoice = contact)
 
-@app.route('/custom_ivoice') #get view
+@app.route('/custom_invoice') #get view
 @requires_auth
 def customInvoice():
-    return render_template('custom.html')
+    return render_template('customInvoice.html')
 
 @app.route('/custom_invoice_api', methods = ['POST'])
 @requires_auth

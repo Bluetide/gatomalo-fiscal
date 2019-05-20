@@ -5,57 +5,66 @@
 {% endblock %}
 {% block body %}
 <div class="container">
-    <div class="btn-group pull-right" role="group" aria-label="...">
-      <a href="/reporteX" class="button btn btn-default ">Reporte X</a>
-      <a href="/reporteZ" class="button btn btn-default ">Reporte Z</a>
-      <a href="/print_today" class="button btn btn-default ">Reimprimir facturas de hoy</a>
+    <div class="jumbotron py-4 my-4">
+        <h5 class="display-4">Invoice Listing</h5>
+        <p class="lead">Opensource integration with Panama Fiscal Invoice</p>
+        <div class="row">
+            <div class="col">
+              <a href="/reporteX" class="btn btn-dark btn-sm">Reporte X</a>
+            </div>
+            <div class="col">
+                <a href="/reporteZ" class="btn btn-dark btn-sm">reporte Z</a>
+              </div>
+            <div class="col">
+                <a href="/print_today" class="btn btn-dark btn-sm">Reimprimir facturas de hoy</a>
+            </div>
+        </div>
     </div>
-
-  <h1>Facturas</h1>
-  <table class="table table-condensed">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Cliente</th>
-        <th>Monto</th>
-        <th>Fecha</th>
-        <th></th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-    {% for invoice in invoices %}
-      <tr class="{{ 'warning' if invoice.invoice_id in printed }}">
-        <th scope="row" > {{ invoice.invoice_id }}</th>
-        <td>{{ invoice.customer_name}}</td>
-        <td>{{ "${:,.2f}".format(invoice.total) }}</td>
-        <td>{{ invoice.date }}</td>
-        <td>
-          <a
-          class="btn btn-xs btn-primary"
-          href="/info/{{ invoice.invoice_id }}">Detail</a>
-        </td>
-        <td>
-          <a
-            class="btn btn-xs btn-success print_button"
-            data-id="{{ invoice.invoice_id }}">Imprimir</a>
-        </td>
-        <td>
-          <a
-            class="btn btn-xs btn-info nota_credito_button"
-            data-id="{{ invoice.invoice_id }}"
-            data-toggle="modal"
-            data-target="#getFiscalIDDialog">Nota Crédito</a>
-        </td>
-        <td>
-          <a
-            class="btn btn-xs btn-default test_invoice"
-            data-invoice-id="{{ invoice.invoice_id }}">No fiscal</a>
-        </td>
-      </tr>
-    {% endfor %}
-    </tbody>
-  </table>
+  <div class="table-responsive">
+      <table class="table table-hover table-sm">
+          <thead class="thead-dark wd">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Zoho ID</th>
+              <th scope="col">Cliente</th>
+              <th scope="col">Monto</th>
+              <th scope="col">Fecha</th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for invoice in invoices %}
+            <tr class="{{ 'warning' if invoice.invoice_id in printed }}">
+              <th scope="row" >{{loop.index}}</th>
+              <td>{{ invoice.invoice_id }}</td>
+              <td>{{ invoice.customer_name}}</td>
+              <td>{{ "${:,.2f}".format(invoice.total) }}</td>
+              <td>{{ invoice.date }}</td>
+              <td>
+                  <a class="btn btn-info btn-sm" href="/info/{{ invoice.invoice_id }}" role="button">Details</a>
+              </td>
+              <td>
+                  <a class="btn btn-primary text-light btn-sm" data-id="{{ invoice.invoice_id }}" role="button">Print</a>
+              </td>
+              <td>
+                  <a class="btn btn-secondary text-light btn-sm" data-invoice-id="{{ invoice.invoice_id }}" role="button">Demo</a>
+                
+              </td>
+              <td>
+                  <a class="btn btn-warning text-light btn-sm" 
+                  data-id="{{ invoice.invoice_id }}" 
+                  data-toggle="modal"
+                  data-target="#getFiscalIDDialog">Refund</a>
+              </td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+  </div>
+  
 
   <nav aria-label="Page Navigation">
     <ul class="pager">
@@ -119,5 +128,9 @@
 
 {% endblock %}
 
+{% block JS %}
+     <!--custom JS-->
+     <script src="{{ url_for('static', filename='js/gatomalo.js') }}"></script>
+{% endblock %}
 
     
