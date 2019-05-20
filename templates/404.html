@@ -1,6 +1,12 @@
 {% extends "base.html" %}
+{% block title %} {{error}} Sorry Rawwwrr {% endblock %}
+
 {% block body %}
- <h1>404 Error :(</h1>
- <p>What you were looking for is just not there.<p>
- <a href="#">go somewhere nice</a>
+<div class="container">
+  <div class="row">
+    <h1>{{error}} Error :(</h1>
+    <p>Damn!... We are in trouble. :/<p>
+    <a href="/">go somewhere nice, Come!</a>
+  </div>
+</div>
 {% endblock %}
