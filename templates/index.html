@@ -37,7 +37,15 @@
           </thead>
           <tbody>
           {% for invoice in invoices %}
-            <tr class="{{ 'warning' if invoice.invoice_id in printed }}">
+            <tr class="{{ 'table-warning' if invoice.invoice_id in printed }} 
+            {%if invoice.status == 'paid'%}
+              table-warning
+              {%elif invoice.status == 'draft' %}
+              table-dark
+              {%elif invoice.status == 'paid'%}
+              table-success
+            {%endif%}
+            ">
               <th scope="row" >{{loop.index}}</th>
               <td>{{ invoice.invoice_id }}</td>
               <td>{{ invoice.customer_name}}</td>
