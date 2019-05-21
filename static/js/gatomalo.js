@@ -58,7 +58,26 @@ $(function(){
 		},
 
 	    };
-	})();
+  })();
 });
 
+$(function () {
+  $('[data-toggle="popover"]').popover();
+});
+ //Popper
+ $('tr').click(
+  function(){
+    $(this).popover({
+      trigger: 'hover'
+    });
+    console.log(this);
+    $(this).attr("statusPopover", "open");
+  }
+);
+$('tbody tr').mouseleave(function(){
+  if($(this).attr("statuspopover") == 'open'){
+    $(this).attr("statusPopover", "close");
+    $(this).popover("hide");    
+  }
+});
 

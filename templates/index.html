@@ -20,6 +20,22 @@
             </div>
         </div>
     </div>
+    <div class="">
+        <form class="form-inline float-right">
+            <select name="status" class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
+              <option selected>Status</option>
+              <option value="paid">Paid</option>
+              <option value="overdue">Overdue</option>
+              <option value="send">Send</option>
+              <option value="draft">Draft</option>
+            </select>
+            <div class="my-1 mr-sm-2">
+              <input name="search" type="text" class="form-control my-1 mr-sm-2" id="search"placeholder="Search: ID | Order | Customer"/>
+            </div>
+          
+            <button type="submit" class="btn btn-primary my-1 btn-sm">Submit</button>
+          </form>
+    </div>
   <div class="table-responsive">
       <table class="table table-hover table-sm">
           <thead class="thead-dark wd">
@@ -39,13 +55,13 @@
           {% for invoice in invoices %}
             <tr class="{{ 'table-warning' if invoice.invoice_id in printed }} 
             {%if invoice.status == 'paid'%}
-              table-warning 
+              table-primary 
               {%elif invoice.status == 'draft' %}
-              table-dark
-              {%elif invoice.status == 'paid'%}
-              table-success not-allowed
+              table-dark not-allowed
+              {%elif invoice.status == 'overdue'%}
+              table-warning
             {%endif%}
-            ">
+            " data-container="body" data-toggle="popover" data-placement="right" data-content="{{invoice.status | capitalize}}">
               <th scope="row" >{{loop.index}}</th>
               <td>{{ invoice.invoice_id }}</td>
               <td>{{ invoice.customer_name}}</td>
@@ -55,14 +71,14 @@
                   <a class="btn btn-info btn-sm" href="/info/{{ invoice.invoice_id }}" role="button">Details</a>
               </td>
               <td>
-                  <a class="btn btn-primary text-light btn-sm" data-id="{{ invoice.invoice_id }}" role="button">Print</a>
+                  <a class="btn btn-primary text-light btn-sm {%if invoice.status == 'draft'%}disabled{%endif%} " data-id="{{ invoice.invoice_id }}" role="button">Print</a>
               </td>
               <td>
                   <a class="btn btn-secondary text-light btn-sm" data-invoice-id="{{ invoice.invoice_id }}" role="button">Demo</a>
                 
               </td>
               <td>
-                  <a class="btn btn-warning text-light btn-sm" 
+                  <a class="btn btn-warning text-light btn-sm {%if invoice.status == 'draft'%}disabled{%endif%}" 
                   data-id="{{ invoice.invoice_id }}" 
                   data-toggle="modal"
                   data-target="#getFiscalIDDialog">Refund</a>
@@ -73,23 +89,19 @@
         </table>
   </div>
   
-
-  <nav aria-label="Page Navigation">
-    <ul class="pager">
+  <div class="row justify-content-md-center">
       {% if page_context["page"] != 1 %}
-        <li>
-          <a href="/{{ page_context["page"] - 1 }}">Previous</a>
-        </li>
+      <div class="col-md-auto">
+        <a href="/{{ page_context["page"] - 1 }}">Previous</a>
+      </div>
       {% endif %}
       {% if page_context.has_more_page %}
-        <li>
-          <a href="{{ page_context["page"] + 1 }}">Next</a>
-        </li>
+      <div class="col-md-auto">
+        <a href="{{ page_context["page"] + 1 }}">Next</a>
+      </div>
       {% endif%}
-    </ul>
-  </nav>
-
   </div>
+</div>
 
 <div class="modal fade" id="pleaseWaitDialog" role="dialog">
 <div class="modal-dialog">
