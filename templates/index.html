@@ -39,11 +39,11 @@
           {% for invoice in invoices %}
             <tr class="{{ 'table-warning' if invoice.invoice_id in printed }} 
             {%if invoice.status == 'paid'%}
-              table-warning
+              table-warning 
               {%elif invoice.status == 'draft' %}
               table-dark
               {%elif invoice.status == 'paid'%}
-              table-success
+              table-success not-allowed
             {%endif%}
             ">
               <th scope="row" >{{loop.index}}</th>

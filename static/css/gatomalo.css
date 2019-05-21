@@ -41,3 +41,14 @@
   -webkit-transition: none !important;
   transition: none !important;
 }
+.not-allowed{
+  cursor: not-allowed !important;
+}
+tbody tr{
+  font-size:14px;
+  text-transform: capitalize;
+}
+tbody tr td a{
+  font-size:12px;
+  text-transform: capitalize;
+}
