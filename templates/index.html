@@ -54,27 +54,38 @@
           <tbody>
           {% for invoice in invoices %}
             <tr class="{{ 'table-warning' if invoice.invoice_id in printed }} 
-            {%if invoice.status == 'paid'%}
-              table-primary 
-              {%elif invoice.status == 'draft' %}
-              table-dark not-allowed
-              {%elif invoice.status == 'overdue'%}
-              table-warning
+            {%if invoice.status == 'draft'%}              
+              not-allowed
             {%endif%}
             " data-container="body" data-toggle="popover" data-placement="right" data-content="{{invoice.status | capitalize}}">
               <th scope="row" >{{loop.index}}</th>
               <td>{{ invoice.invoice_id }}</td>
-              <td>{{ invoice.customer_name}}</td>
+              <td>
+                {{ invoice.customer_name}}
+                {%if invoice.status == 'paid'%}
+                 <span class="badge badge-success">{{invoice.status | capitalize}}</span>
+                 {%elif invoice.status == 'overdue'%}
+                 <span class="badge badge-warning">{{invoice.status | capitalize}}</span>
+                 {%elif invoice.status == 'sent'%}
+                 <span class="badge badge-light">{{invoice.status | capitalize}}</span>
+                 {%elif invoice.status == 'sent'%}
+                 <span class="badge badge-light">{{invoice.status | capitalize}}</span>
+                 {%elif invoice.status == 'partially_paid'%}
+                 <span class="badge badge-success">{{invoice.status | capitalize}}</span>
+                 {%elif invoice.status == 'draft'%}
+                 <span class="badge badge-secondary">{{invoice.status | capitalize}}</span>
+                {%endif%}
+              </td>
               <td>{{ "${:,.2f}".format(invoice.total) }}</td>
               <td>{{ invoice.date }}</td>
               <td>
                   <a class="btn btn-info btn-sm" href="/info/{{ invoice.invoice_id }}" role="button">Details</a>
               </td>
               <td>
-                  <a class="btn btn-primary text-light btn-sm {%if invoice.status == 'draft'%}disabled{%endif%} " data-id="{{ invoice.invoice_id }}" role="button">Print</a>
+                  <a class="btn btn-primary text-light text-light btn-sm {%if invoice.status == 'draft'%}disabled{%endif%} " data-id="{{ invoice.invoice_id }}" role="button">Print</a>
               </td>
               <td>
-                  <a class="btn btn-secondary text-light btn-sm" data-invoice-id="{{ invoice.invoice_id }}" role="button">Demo</a>
+                  <a class="btn btn-light btn-sm" data-invoice-id="{{ invoice.invoice_id }}" role="button">Demo</a>
                 
               </td>
               <td>
