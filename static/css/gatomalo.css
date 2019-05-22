@@ -44,6 +44,9 @@
 .not-allowed{
   cursor: not-allowed !important;
 }
+.pointer_link{
+  cursor: pointer !important;
+}
 tbody tr{
   font-size:14px;
   text-transform: capitalize;

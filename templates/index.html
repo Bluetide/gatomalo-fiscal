@@ -48,7 +48,6 @@
               <th scope="col"></th>
               <th scope="col"></th>
               <th scope="col"></th>
-              <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
@@ -56,8 +55,10 @@
             <tr class="{{ 'table-warning' if invoice.invoice_id in printed }} 
             {%if invoice.status == 'draft'%}              
               not-allowed
+              {%else%}
+              pointer_link
             {%endif%}
-            " data-container="body" data-toggle="popover" data-placement="right" data-content="{{invoice.status | capitalize}}">
+            " id_invoice="{{invoice.invoice_id}}">
               <th scope="row" >{{loop.index}}</th>
               <td>{{ invoice.invoice_id }}</td>
               <td>
@@ -78,9 +79,6 @@
               </td>
               <td>{{ "${:,.2f}".format(invoice.total) }}</td>
               <td>{{ invoice.date }}</td>
-              <td>
-                  <a class="btn btn-info btn-sm" href="/info/{{ invoice.invoice_id }}" role="button">Details</a>
-              </td>
               <td>
                   <a class="btn btn-primary text-light text-light btn-sm {%if invoice.status == 'draft'%}disabled{%endif%} " data-id="{{ invoice.invoice_id }}" role="button">Print</a>
               </td>
