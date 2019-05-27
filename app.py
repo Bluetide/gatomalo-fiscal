@@ -94,6 +94,7 @@ def index(page=1):
     printed_invoices = set([f.zoho_id for f in db_session.query(Factura).all()])
     return render_template('index.html',
         invoices=invoice_list, printed=printed_invoices, page_context=page_context)
+<<<<<<< HEAD
 
 # elay working to show invoice details through api cloud counting
 @app.route('/info/<invoice_id>')
@@ -150,6 +151,21 @@ def nofisca(id_test):
 
 # end funct
 
+=======
+# Lay snippet
+@app.route('/printed')
+@app.route('/printed/<page>')
+@requires_auth
+def printed(page=1):
+    session = db_worker.session_maker()
+    db_printed = db_worker.all_facturas(session)
+    invoice = cloud_accounting.get_invoice("1349400000001010023")
+    print(invoice)
+    print("dropit")
+    print(db_printed)
+    return render_template('printed.html', invoices_printed = db_printed)
+# End
+>>>>>>> e5f6f9575e483d2fb841283264f6eb6520976318
 @app.route('/print_today')
 @requires_auth
 def print_today():
@@ -215,4 +231,4 @@ def reporteZ():
     return redirect(url_for('index'))
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=True, host='0.0.0.0', port=5555)

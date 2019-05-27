@@ -2,10 +2,17 @@
 Description="GatoMalo Server"
 
 [Service]
+<<<<<<< HEAD
 Environment="ZOHO_AUTH=3978e2966ba80474281580caf6c99e44"
 Environment="ZOHO_ORG=667429349"
 Environment="ADMIN_USERNAME=Bluetide"
 Environment="ADMIN_PASSWORD=megustaresolver"
+=======
+Environment="ZOHO_AUTH=11111"
+Environment="ZOHO_ORG=11111"
+Environment="ADMIN_USERNAME=1111"
+Environment="ADMIN_PASSWORD=1111"
+>>>>>>> e5f6f9575e483d2fb841283264f6eb6520976318
 Type=simple
 User=btc
 WorkingDirectory=/gatomalo
