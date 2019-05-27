@@ -45,6 +45,7 @@ def requires_auth(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         auth = request.authorization
+        print(auth)
         if not auth or not check_auth(auth.username, auth.password):
             return authenticate()
         return f(*args, **kwargs)
@@ -66,7 +67,7 @@ def parse_productos_from_post(post):
 
 @app.route('/facturas_api', methods = ['POST'])
 def make_factura():
-    print(request.json)
+    #print(request.json)
     session = db_worker.session_maker()
     if request.json and 'factura' in request.json:
         productos = request.json['factura']['productos']
@@ -77,6 +78,7 @@ def make_factura():
     else:
         abort(400)
     try:
+
         factura,productos,cliente = db_worker.create_factura(session,cliente,productos)
     except Exception as e:
             raise(e)
@@ -92,6 +94,7 @@ def index(page=1):
     invoice_list, page_context = cloud_accounting.get_invoice_list(page)
     json.dumps(invoice_list)
     printed_invoices = set([f.zoho_id for f in db_session.query(Factura).all()])
+    #print(printed_invoices)
     return render_template('index.html',
         invoices=invoice_list, printed=printed_invoices, page_context=page_context)
 <<<<<<< HEAD
@@ -105,10 +108,10 @@ def info(invoice_id):
     json.dumps(factura)
     return render_template('show.html',data=factura, contact_invoice = contact)
 
-@app.route('/custom_ivoice') #get view
+@app.route('/custom_invoice') #get view
 @requires_auth
 def customInvoice():
-    return render_template('custom.html')
+    return render_template('customInvoice.html')
 
 @app.route('/custom_invoice_api', methods = ['POST'])
 @requires_auth
@@ -210,11 +213,12 @@ def post_credit_note():
         abort(400)
     else:
 
-        # Get the invoice from remote server
+        # Get the invoice from remote serverer
         invoice = cloud_accounting.get_invoice(invoice_id)
         nota_credito = NotaDeCredito(fiscal_id, invoice)
+        print(nota_credito)
         nota_credito.print()
-        print(jsonify(nota_credito))
+        #print(jsonify(nota_credito))
         # Return response
         return jsonify(data=str(nota_credito))
 
@@ -229,6 +233,13 @@ def reporteX():
 def reporteZ():
     printer.write_string_to_printer('I0Z')
     return redirect(url_for('index'))
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('404.html', error = error)
+@app.errorhandler(500)
+def internal_error(error):
+    return render_template('404.html', error = error)
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=5555)

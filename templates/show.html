@@ -103,8 +103,22 @@
           <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
             <div class="card-header info_title">Custom Fields</div>
             <div class="card-body info">
-                <p>Razon Social: </p><span>{{contact_invoice[0].RazonSocial}}</span>
-                <p>RUC: </p><span>{{contact_invoice[1].RUC}}</span>
+                <p>Razon Social: {%if contact_invoice[0].RazonSocial %}
+                  </p><span>{{contact_invoice[0].RazonSocial}}</span>
+                    {%else%}
+                    <p>Empty</p>
+                  {%endif%} 
+                
+
+
+                <p>RUC: {%if contact_invoice[1].RUC %} 
+                  </p><span>{{contact_invoice[1].RUC}}</span>
+                  {%else%}
+                  <p>Empty</p>
+                {%endif%} 
+
+
+
                 {%if contact_invoice[2].DV %}
                   <p>DV: </p><span>{{contact_invoice[2].DV}}</span>
                   {%else%}
