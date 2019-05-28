@@ -26,6 +26,9 @@ curl -sSL https://raw.githubusercontent.com/Bluetide/gatomalo-fiscal/master/setu
   export ADMIN_USERNAME='admin'
   export ADMIN_PASSWORD='somethingyoucanrememberbutitsnotsohardtoguess'
   ```
+3. Agregar el usuario al grupo dialout  para tener permiso
+```sudo adduser $USER dialout 
+```
 
 6. Ejecutar gatomalo
   ```bash
