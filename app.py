@@ -97,64 +97,6 @@ def index(page=1):
     #print(printed_invoices)
     return render_template('index.html',
         invoices=invoice_list, printed=printed_invoices, page_context=page_context)
-<<<<<<< HEAD
-
-# elay working to show invoice details through api cloud counting
-@app.route('/info/<invoice_id>')
-@requires_auth
-def info(invoice_id):
-    factura = cloud_accounting.get_invoice_detail(invoice_id)
-    contact = cloud_accounting.get_contact_custom_detail(factura)
-    json.dumps(factura)
-    return render_template('show.html',data=factura, contact_invoice = contact)
-
-@app.route('/custom_invoice') #get view
-@requires_auth
-def customInvoice():
-    return render_template('customInvoice.html')
-
-@app.route('/custom_invoice_api', methods = ['POST'])
-@requires_auth
-def customform():
-        print(request.get_json())
-        session = db_worker.session_maker()
-        if request.json and 'factura' in request.json:
-            productos = request.json['factura']['productos']
-            cliente =  request.json['factura']['cliente']
-        elif request.form:
-            cliente = parse_cliente_from_post(request)
-            productos = parse_productos_from_post(request)
-        else:
-            abort(400)
-        try:
-            factura,productos,cliente = db_worker.create_factura(session,cliente,productos)
-        except Exception as e:
-                raise(e)
-                session.rollback()
-        printer.write_string_to_printer(str(factura))
-        return str(factura)
-
-@app.route('/custom_refund') #get view
-@requires_auth
-def customRefund():
-    return render_template('refund.html')
-
-# @app.route('/custom_refund_api', methods = ['POST'])
-##add new function to print refund  invoice
-#------------------
-
-@app.route('/test_no_fiscal/<id_test>', methods = ['POST'])
-@requires_auth
-def nofisca(id_test):
-    id = cloud_accounting.get_invoice(id_test)
-    result = id.print_no_fiscal()
-    printer.write_string_to_printer(str(result))
-    return result
-
-
-# end funct
-
-=======
 # Lay snippet
 @app.route('/printed')
 @app.route('/printed/<page>')
@@ -168,7 +110,6 @@ def printed(page=1):
     print(db_printed)
     return render_template('printed.html', invoices_printed = db_printed)
 # End
->>>>>>> e5f6f9575e483d2fb841283264f6eb6520976318
 @app.route('/print_today')
 @requires_auth
 def print_today():

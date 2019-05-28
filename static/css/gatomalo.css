@@ -55,3 +55,46 @@ tbody tr td a{
   font-size:12px;
   text-transform: capitalize;
 }
+
+/*------------HOME----------------*/
+a.btn.btn-sm.btn-home-top {
+  font-weight: bold;
+  margin-left: 50px;
+  font-size: 16px;
+  background-color: #0c548e;
+  border: #0c548e;
+  padding: 5px 20px;
+  color:white;
+}
+
+a.btn.btn-sm.btn-home-top:hover {
+  font-size: 18px;
+}
+
+h5.display-4, .lead {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.btn:not(:disabled):not(.disabled) {
+  cursor: pointer;
+  padding: 5px 20px;
+  font-weight: bold;
+}
+
+a.new-btn-light {
+  background-color: #009688;
+  color: white!important;
+}
+
+.new-btn-light:hover {
+  color: #ffffff9e!important;
+  background-color: #00695E;
+  border-color: #dae0e5;
+}
+
+th.table-cliente{
+  text-align: center;
+}
+
+/*----------------------*/

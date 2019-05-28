@@ -8,31 +8,26 @@
     <div class="jumbotron py-4 my-4">
         <h5 class="display-4">Invoice Listing</h5>
         <p class="lead">Opensource integration with Panama Fiscal Invoice</p>
+
+        <hr>
+
         <div class="row">
             <div class="col">
-              <a href="/reporteX" class="btn btn-dark btn-sm">Reporte X</a>
+              <a href="/reporteX" class="btn  btn-sm btn-home-top">Reporte X</a>
             </div>
             <div class="col">
-                <a href="/reporteZ" class="btn btn-dark btn-sm">reporte Z</a>
+                <a href="/reporteZ" class="btn btn-sm btn-home-top">Reporte Z</a>
               </div>
             <div class="col">
-                <a href="/print_today" class="btn btn-dark btn-sm">Reimprimir facturas de hoy</a>
+                <a href="/print_today" class="btn  btn-sm btn-home-top">Reimprimir facturas de hoy</a>
             </div>
         </div>
-<<<<<<< HEAD
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="/">Home</a></li>
-<<<<<<< HEAD
-            <li class=""><a href="/custom_ivoice">Custom Invoice</a></li>
-            <li class=""><a href="/custom_refund">Custom Refund</a></li>
-
-=======
             <li class=""><a href="/printed">impresas</a></li>
->>>>>>> e5f6f9575e483d2fb841283264f6eb6520976318
           </ul>
         </div><!--/.nav-collapse -->
-=======
     </div>
     <div class="">
         <form class="form-inline float-right">
@@ -97,7 +92,7 @@
                   <a class="btn btn-primary text-light text-light btn-sm {%if invoice.status == 'draft'%}disabled{%endif%} " data-id="{{ invoice.invoice_id }}" role="button">Print</a>
               </td>
               <td>
-                  <a class="btn btn-light btn-sm" data-invoice-id="{{ invoice.invoice_id }}" role="button">Demo</a>
+                  <a class="btn btn-light btn-sm new-btn-light" data-invoice-id="{{ invoice.invoice_id }}" role="button">Demo</a>
                 
               </td>
               <td>

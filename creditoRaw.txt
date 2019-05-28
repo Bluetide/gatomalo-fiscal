@@ -1,18 +1,9 @@
-<<<<<<< HEAD
-jFTFBX110002122-00000XXX
-jSDistribuidora XXXX XXXXX
-j1Direccion: Edificio XXXX
-j2Telefono: 366-XXXX
-jRXXXXXX-X-XXXXXX DV XX
-d!000009900000001000Campaña Digital XXXX
-=======
 jFTFBX110002122-00000xxx
 jSxxxxxxxxx Xxxxxx, S.A.
 j1Direccion: Edificio Xxx
 j2Telefono: 366-xxxx
 jRxxxxxx-x-xxxxxx DV xx
 d!000009900000001000xxxxxxxxxx xxxxxx
->>>>>>> e5f6f9575e483d2fb841283264f6eb6520976318
 3
 q-000000000
 101
