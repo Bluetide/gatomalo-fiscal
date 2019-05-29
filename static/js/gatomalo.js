@@ -26,39 +26,77 @@ $(function(){
       ;
   });
   // Setup 'Print' Button
-  $('.print_button').click(function(evn){
-    if (confirm('Confirmar impresion de factura')) {
-        myApp.showPleaseWait();
-        $.get('/print_gatomalo/' + $(evn.toElement).data('id'))
-        .done(function(data){ 
-          console.log(data); 
-          myApp.hidePleaseWait(); 
-          location.reload(true); 
-        })
-        .error(function(data){ 
-          console.log(data);
-          alert(data.status); 
-        });
-        } else {
-                return false;
-        }
+  //Elay setup
+  $(".print_button").click(function(e){
+    progressBar.showPleaseWait();
+    var idInvoice = $(this).attr("data-id");
+    console.log('/print_gatomalo/' + idInvoice);
+
+    $.ajax({
+      url:'/print_gatomalo/' + idInvoice,
+      method:'GET',
+    }).done(function(result){
+      console.log(result);
+      if(result != 'error'){
+        progressBar.hidePleaseWait();
+        //location.reload(true);
+      }else{
+        $(".progress").addClass("d-none");
+        $("#errorHandle").removeClass("d-none");
+      }
+    });
   });
+  //end
+
+
+
+  // $('.print_button').click(function(evn){
+  //   if (confirm('Confirmar impresion de factura')) {
+  //       myApp.showPleaseWait();
+  //       $.get('/print_gatomalo/' + $(evn.toElement).data('id'))
+  //       .done(function(data){ 
+  //         console.log(data); 
+  //         myApp.hidePleaseWait(); 
+  //         location.reload(true); 
+  //       })
+  //       .error(function(data){ 
+  //         console.log(data);
+  //         alert(data.status); 
+  //       });
+  //       } else {
+  //               return false;
+  //       }
+  // });
 
   //Modal and Progres Bar setting
-	var myApp;
-	myApp = myApp || (function () {
-	    var pleaseWaitDiv = $('#pleaseWaitDialog')
-	    return {
-		showPleaseWait: function() {
-		    pleaseWaitDiv.modal();
-		    $(".progress-bar").animate({width: "100%"}, 5000);
-		},
-		hidePleaseWait: function () {
-		    pleaseWaitDiv.modal('hide');
-		},
+  //Elay setup
+  
+  const progressBar = {
+    showPleaseWait:function(){
+      $("#pleaseWaitDialog").modal();
+      $(".progress-bar").animate({width: "100%"}, 5000);
+    },
+    hidePleaseWait:function(){
+      $("#pleaseWaitDialog").modal('hide');
+    }
+  };
+  //End
 
-	    };
-  })();
+
+	// var myApp;
+	// myApp = myApp || (function () {
+	//     var pleaseWaitDiv = $('#pleaseWaitDialog')
+	//     return {
+	// 	showPleaseWait: function() {
+	// 	    pleaseWaitDiv.modal();
+	// 	    $(".progress-bar").animate({width: "100%"}, 5000);
+	// 	},
+	// 	hidePleaseWait: function () {
+	// 	    pleaseWaitDiv.modal('hide');
+	// 	},
+
+	//     };
+  // })();
 });
 
 

@@ -13,7 +13,7 @@ zoho_authtoken = config.zoho_auth
 zoho_organization_id = config.zoho_org
 
 def get_invoice_list(page):
-    auth = {'authtoken':zoho_authtoken,'organization_id':zoho_organization_id, 'page': page, 'per_page': 50}
+    auth = {'authtoken':zoho_authtoken,'organization_id':zoho_organization_id, 'page': page, 'per_page': 30}
     r = requests.get(zoho_url_invoices,params=auth)
     json_response = r.json()
     return json_response['invoices'], json_response['page_context']

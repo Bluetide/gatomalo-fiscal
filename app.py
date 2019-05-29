@@ -45,7 +45,6 @@ def requires_auth(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         auth = request.authorization
-        print(auth)
         if not auth or not check_auth(auth.username, auth.password):
             return authenticate()
         return f(*args, **kwargs)
@@ -134,8 +133,9 @@ def create_invoice_json(invoice_id):
 @requires_auth
 def print_gatomalo(invoice_id):
     factura = cloud_accounting.get_invoice(invoice_id)
-    factura.print()
-    return jsonify(data=str(factura))
+    #factura.print()
+    return 'error'
+    #return jsonify(data=str(factura))
 
 @app.route('/nota_credito', methods = ['POST'])
 @requires_auth
@@ -183,4 +183,4 @@ def internal_error(error):
     return render_template('404.html', error = error)
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=5555)
+    app.run(debug=False, host='0.0.0.0', port=5000)

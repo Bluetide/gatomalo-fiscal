@@ -3,10 +3,12 @@
 
 {% block body %}
 <div class="container">
-  <div class="row">
-    <h1>{{error}} Error :(</h1>
-    <p>Damn!... We are in trouble. :/<p>
-    <a href="/">go somewhere nice, Come!</a>
+  <div class="jumbotron">
+    <h1 class="display-4">Error! Gato Sad</h1>
+    <p class="lead">Damn!... We are in trouble. </p>
+    <hr class="my-4">
+    <p>{{error}}</p>
+    <a class="btn btn-primary btn-lg" href="/" role="button">Go somewhere nice, Come, HIT ME!</a>
   </div>
 </div>
 {% endblock %}
