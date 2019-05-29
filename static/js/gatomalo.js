@@ -61,12 +61,4 @@ $(function(){
   })();
 });
 
- //Popper
- $('tr').click(
-  function(){
-    id = $(this).attr("id_invoice");
-    console.log(id)
-    window.location.href = `/info/${id}`;
-  }
-);
 

@@ -60,7 +60,7 @@
             {%endif%}
             " id_invoice="{{invoice.invoice_id}}">
               <th scope="row" >{{loop.index}}</th>
-              <td>{{ invoice.invoice_id }}</td>
+              <td><a href="/info/{{ invoice.invoice_id }}">{{ invoice.invoice_id }}</a></td>
               <td>
                 {{ invoice.customer_name}}
                 {%if invoice.status == 'paid'%}
