@@ -89,41 +89,64 @@ def parse_invoice_data(data):
     return invoice_model
 
 def parse_contact_data(raw_data):
-
+    # Build a custom field dictionary
+    customLabel = ["Razón Social", "RUC", "DV", "Razón Social:", "RUC:", "DV:"]
     # Build Model
     cliente_model = Cliente(
             empresa=raw_data['contact']['contact_name'],
             direccion=raw_data['contact']['billing_address']['address']
         )
-
+    if len(raw_data['contact']['custom_fields']) != 0 :
+        print("tiene datos")
+        for custom in customLabel:
+            for cf in raw_data['contact']['custom_fields']:
+                if custom != cf['label']:
+                    catch = custom
+                    print(custom)
+            ErrorList.append(catch)
+            print('-------------------------------------------------')
+                    
+    else:
+        print("no existen datos custom")
+    # print(ErrorList)
     # Parse custom fields
     for cf in raw_data['contact']['custom_fields']:
-        if 'label' in cf and cf['label'] == 'Razón Social' and cf['value'] != '':
+        if 'label' in cf and cf['label'] == 'Razón Social':
             cliente_model.empresa = cf['value']
-        elif 'label' in cf and cf['label'] == 'RUC' and cf['value'] != '':
+            print("1")
+        elif 'label' in cf and cf['label'] == 'RUC':
             cliente_model.ruc = cf['value']
-        elif 'label' in cf and cf['label'] == 'DV' and cf['value'] != '':
+            print("2")
+        elif 'label' in cf and cf['label'] == 'DV':
             cliente_model.dv = cf['value']
-        elif 'label' in cf and cf['label'] == 'Razón Social:' and cf['value'] != '':
+            print("3")
+        elif 'label' in cf and cf['label'] == 'Razón Social:':
             cliente_model.empresa = cf['value']
-        elif 'label' in cf and cf['label'] == 'RUC:' and cf['value'] != '':
+            print("4")
+        elif 'label' in cf and cf['label'] == 'RUC:':
             cliente_model.ruc = cf['value']
-        elif 'label' in cf and cf['label'] == 'DV:' and cf['value'] != '':
+            print("5")
+        elif 'label' in cf and cf['label'] == 'DV:':
             cliente_model.dv = cf['value']
-        else:
-            ErrorList.append("Error")
+            print("6")
+            
 
     # Parse Phone number
     for contact_person in raw_data['contact']['contact_persons']:
         if contact_person['is_primary_contact'] and 'phone' in contact_person:
             cliente_model.telefono = contact_person['phone']
-    
-    if not ErrorList:
-        print(cliente_model)
-        return cliente_model
-    else:
-        print(ErrorList)
+
+
+    if len(ErrorList) != 0: 
+        # print("Sin error")
+        # print(ErrorList)
+        # print(cliente_model)
         return ErrorList
+    else:    
+        # print("con error")
+        # print(ErrorList)
+        # print(cliente_model)
+        return cliente_model
 
 
 def translate_product(product):
