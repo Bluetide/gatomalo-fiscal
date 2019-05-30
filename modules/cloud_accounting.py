@@ -12,6 +12,8 @@ zoho_url_contacts = 'https://books.zoho.com/api/v3/contacts'
 zoho_authtoken = config.zoho_auth
 zoho_organization_id = config.zoho_org
 
+ErrorList = []
+
 def get_invoice_list(page):
     auth = {'authtoken':zoho_authtoken,'organization_id':zoho_organization_id, 'page': page, 'per_page': 30}
     r = requests.get(zoho_url_invoices,params=auth)
@@ -96,26 +98,32 @@ def parse_contact_data(raw_data):
 
     # Parse custom fields
     for cf in raw_data['contact']['custom_fields']:
-        if 'label' in cf and cf['label'] == 'Razón Social':
+        if 'label' in cf and cf['label'] == 'Razón Social' and cf['value'] != '':
             cliente_model.empresa = cf['value']
-        elif 'label' in cf and cf['label'] == 'RUC':
+        elif 'label' in cf and cf['label'] == 'RUC' and cf['value'] != '':
             cliente_model.ruc = cf['value']
-        elif 'label' in cf and cf['label'] == 'DV':
+        elif 'label' in cf and cf['label'] == 'DV' and cf['value'] != '':
             cliente_model.dv = cf['value']
-        elif 'label' in cf and cf['label'] == 'Razón Social:':
+        elif 'label' in cf and cf['label'] == 'Razón Social:' and cf['value'] != '':
             cliente_model.empresa = cf['value']
-        elif 'label' in cf and cf['label'] == 'RUC:':
+        elif 'label' in cf and cf['label'] == 'RUC:' and cf['value'] != '':
             cliente_model.ruc = cf['value']
-        elif 'label' in cf and cf['label'] == 'DV:':
+        elif 'label' in cf and cf['label'] == 'DV:' and cf['value'] != '':
             cliente_model.dv = cf['value']
+        else:
+            ErrorList.append("Error")
 
     # Parse Phone number
     for contact_person in raw_data['contact']['contact_persons']:
         if contact_person['is_primary_contact'] and 'phone' in contact_person:
             cliente_model.telefono = contact_person['phone']
-
-    # Return
-    return cliente_model
+    
+    if not ErrorList:
+        print(cliente_model)
+        return cliente_model
+    else:
+        print(ErrorList)
+        return ErrorList
 
 
 def translate_product(product):
@@ -150,30 +158,29 @@ def get_invoice(invoice_id):
     # Parse and return
     return parse_invoice_data(raw_invoice)
 
-def get_contact_custom_detail(data):
-    box = []
-    contact_id = data['invoice']['customer_id']
-    raw_client = get_contact_detail(contact_id)
-    print()
-    # Parse custom fields
-    for cf in raw_client['contact']['custom_fields']:
-        if 'label' in cf and cf['label'] == 'Razón Social':
-            rz = cf['value']
-            box.append({'RazonSocial': rz})
-        elif 'label' in cf and cf['label'] == 'RUC':
-            ruc = cf['value']
-            box.append({'RUC': ruc})
-        elif 'label' in cf and cf['label'] == 'DV':
-            dv = cf['value']
-            box.append({'DV': dv})
-        if 'label' in cf and cf['label'] == 'Razón Social:':
-            rz = cf['value']
-            box.append({'RazonSocial': rz})
-        elif 'label' in cf and cf['label'] == 'RUC:':
-            ruc = cf['value']
-            box.append({'RUC': ruc})
-        elif 'label' in cf and cf['label'] == 'DV:':
-            dv = cf['value']
-            box.append({'DV': dv})
-    json.dumps(box)
-    return box
+# def get_contact_custom_detail(data):
+#     box = []
+#     contact_id = data['invoice']['customer_id']
+#     raw_client = get_contact_detail(contact_id)
+#     print()
+#     # Parse custom fields
+#     for cf in raw_client['contact']['custom_fields']:
+#         if 'label' in cf and cf['label'] == 'Razón Social':
+#             rz = cf['value']
+#             box.append({'RazonSocial': rz})
+#         elif 'label' in cf and cf['label'] == 'RUC':
+#             ruc = cf['value']
+#             box.append({'RUC': ruc})
+#         elif 'label' in cf and cf['label'] == 'DV':
+#             dv = cf['value']
+#             box.append({'DV': dv})
+#         if 'label' in cf and cf['label'] == 'Razón Social:':
+#             rz = cf['value']
+#             box.append({'RazonSocial': rz})
+#         elif 'label' in cf and cf['label'] == 'RUC:':
+#             ruc = cf['value']
+#             box.append({'RUC': ruc})
+#         elif 'label' in cf and cf['label'] == 'DV:':
+#             dv = cf['value']
+#             box.append({'DV': dv})
+        

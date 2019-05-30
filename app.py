@@ -133,6 +133,7 @@ def create_invoice_json(invoice_id):
 @requires_auth
 def print_gatomalo(invoice_id):
     factura = cloud_accounting.get_invoice(invoice_id)
+    #print(factura)
     #factura.print()
     return 'error'
     #return jsonify(data=str(factura))
