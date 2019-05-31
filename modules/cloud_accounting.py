@@ -12,7 +12,6 @@ zoho_url_contacts = 'https://books.zoho.com/api/v3/contacts'
 zoho_authtoken = config.zoho_auth
 zoho_organization_id = config.zoho_org
 
-ErrorList = []
 
 def get_invoice_list(page):
     auth = {'authtoken':zoho_authtoken,'organization_id':zoho_organization_id, 'page': page, 'per_page': 30}
@@ -89,6 +88,9 @@ def parse_invoice_data(data):
     return invoice_model
 
 def parse_contact_data(raw_data):
+    CorrectList = []
+    ErrorList = []
+    x = 0
     # Build a custom field dictionary
     customLabel = ["Razón Social", "RUC", "DV", "Razón Social:", "RUC:", "DV:"]
     # Build Model
@@ -100,53 +102,49 @@ def parse_contact_data(raw_data):
         print("tiene datos")
         for custom in customLabel:
             for cf in raw_data['contact']['custom_fields']:
-                if custom != cf['label']:
-                    catch = custom
-                    print(custom)
-            ErrorList.append(catch)
-            print('-------------------------------------------------')
-                    
-    else:
-        print("no existen datos custom")
-    # print(ErrorList)
-    # Parse custom fields
-    for cf in raw_data['contact']['custom_fields']:
-        if 'label' in cf and cf['label'] == 'Razón Social':
-            cliente_model.empresa = cf['value']
-            print("1")
-        elif 'label' in cf and cf['label'] == 'RUC':
-            cliente_model.ruc = cf['value']
-            print("2")
-        elif 'label' in cf and cf['label'] == 'DV':
-            cliente_model.dv = cf['value']
-            print("3")
-        elif 'label' in cf and cf['label'] == 'Razón Social:':
-            cliente_model.empresa = cf['value']
-            print("4")
-        elif 'label' in cf and cf['label'] == 'RUC:':
-            cliente_model.ruc = cf['value']
-            print("5")
-        elif 'label' in cf and cf['label'] == 'DV:':
-            cliente_model.dv = cf['value']
-            print("6")
+                if custom == cf['label']: 
+                    CorrectList.append(cf['label'])
+                    break
+                else:
+                    continue
+        # Parse Phone number
+        for contact_person in raw_data['contact']['contact_persons']:
+            if contact_person['is_primary_contact'] and 'phone' in contact_person:
+                cliente_model.telefono = contact_person['phone']
+        
+        for chico in range(len(CorrectList)):
+            for grande in range(len(customLabel)):
+                if CorrectList[chico] == customLabel[grande]
+                    pos = 
+
+        print(ErrorList)
+
+        
             
+        
+        print(ErrorList)
+        # Insert data in array to fill fields
+        # for cf in raw_data['contact']['custom_fields']:
+        #     if 'label' in cf and cf['label'] == 'Razón Social':
+        #         cliente_model.empresa = cf['value']
+        #     elif 'label' in cf and cf['label'] == 'RUC':
+        #         cliente_model.ruc = cf['value']
+        #     elif 'label' in cf and cf['label'] == 'DV':
+        #         cliente_model.dv = cf['value']
+        #     elif 'label' in cf and cf['label'] == 'Razón Social:':
+        #         cliente_model.empresa = cf['value']
+        #     elif 'label' in cf and cf['label'] == 'RUC:':
+        #         cliente_model.ruc = cf['value']
+        #     elif 'label' in cf and cf['label'] == 'DV:':
+        #         cliente_model.dv = cf['value']
 
-    # Parse Phone number
-    for contact_person in raw_data['contact']['contact_persons']:
-        if contact_person['is_primary_contact'] and 'phone' in contact_person:
-            cliente_model.telefono = contact_person['phone']
+        if len(CorrectList) == 3:
+            return cliente_model
+        elif len(CorrectList) < 3:
+            return CorrectList
+    else:
 
-
-    if len(ErrorList) != 0: 
-        # print("Sin error")
-        # print(ErrorList)
-        # print(cliente_model)
-        return ErrorList
-    else:    
-        # print("con error")
-        # print(ErrorList)
-        # print(cliente_model)
-        return cliente_model
+        return 'No existen datos'
 
 
 def translate_product(product):
