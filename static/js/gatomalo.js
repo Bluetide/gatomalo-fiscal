@@ -36,13 +36,17 @@ $(function(){
       url:'/print_gatomalo/' + idInvoice,
       method:'GET',
     }).done(function(result){
-      console.log(result);
-      if(result != 'error'){
+      console.log(result)
+      if(result.data == null || result.data == undefined){
         progressBar.hidePleaseWait();
-        //location.reload(true);
+        location.reload(true);
       }else{
         $(".progress").addClass("d-none");
+        $("#restart").removeClass("disabled");
         $("#errorHandle").removeClass("d-none");
+        for(i=0; i < result.data.length;i++){
+          $("#ErrorList").append('<li class="font-weight-bold">'+ result.data[i] +'</li>'); 
+        }
       }
     });
   });

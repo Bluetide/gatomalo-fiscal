@@ -96,7 +96,7 @@ def parse_invoice_data(data):
 
 def criticalDataToPrint(raw_data):
     # Build a custom field dictionary
-    customLabel = ["Razón Social", "RUC", "DV", "Razón Social:", "RUC:", "DV:"]
+    customLabel = ["Razón Social", "RUC", "DV"]
     ErrorList = copy.copy(customLabel)
     CorrectList = []
     x = 0
@@ -187,6 +187,6 @@ def get_invoice(invoice_id):
 
     # Retrieve data from remote server
     raw_invoice = get_invoice_detail(invoice_id)
-    
+
     # Parse and return
     return parse_invoice_data(raw_invoice)       
