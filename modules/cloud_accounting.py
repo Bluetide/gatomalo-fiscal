@@ -78,6 +78,8 @@ def parse_invoice_data(data):
         contact_id = data['invoice']['customer_id']
         raw_client = get_contact_detail(contact_id)
         client_model = parse_contact_data(raw_client)
+        # filter variable to decide if pass or not
+        filter = criticalDataToPrint(raw_client)
     except Exception as e:
         # Safe defaults
         client_model = Cliente(empresa=customer_name, direccion=address)
@@ -85,21 +87,20 @@ def parse_invoice_data(data):
     invoice_model = Factura(invoice_id, client_model, global_discount)
     invoice_model.productos = [translate_product(p) for p in data["invoice"]["line_items"]]
 
-    # Return the invoice Model
-    return invoice_model
+    # Return the invoice Model filter if the critical data passed
+    if filter == 'Good':
+        return invoice_model
+    else:
+        dataError = 'Error'
+        return filter, dataError
 
-def parse_contact_data(raw_data):
-    CorrectList = []
-    ErrorList = []
-    x = 0
+def criticalDataToPrint(raw_data):
     # Build a custom field dictionary
     customLabel = ["Razón Social", "RUC", "DV", "Razón Social:", "RUC:", "DV:"]
-    custom_copy = copy.copy(customLabel)
-    # Build Model
-    cliente_model = Cliente(
-            empresa=raw_data['contact']['contact_name'],
-            direccion=raw_data['contact']['billing_address']['address']
-        )
+    ErrorList = copy.copy(customLabel)
+    CorrectList = []
+    x = 0
+
     if len(raw_data['contact']['custom_fields']) != 0 :
         print("tiene datos")
         for custom in customLabel:
@@ -109,48 +110,53 @@ def parse_contact_data(raw_data):
                     break
                 else:
                     continue
-        # Parse Phone number
-        for contact_person in raw_data['contact']['contact_persons']:
-            if contact_person['is_primary_contact'] and 'phone' in contact_person:
-                cliente_model.telefono = contact_person['phone']
-        print("---------------------")
-        print(CorrectList)
+        # Iteracion de valores de 2 arreglos para poder sacar los valores correctos y 
+        # dejar solo los incorrectos, esto con el objetivo de imprimir los valores criticos faltantes para la impresion
         for chico in CorrectList:
-            # print(chico)
             for grande in customLabel:
-                # print(grande)
                 if grande == chico:
-                    print("Dropit")
-                    print(grande)
-                    custom_copy.pop(x)
-                    # print(custom_copy)
+                    ErrorList.pop(x)
                     x-=1
-            
             x += 1     
-            
-        print(custom_copy)
-        # Insert data in array to fill fields
-        # for cf in raw_data['contact']['custom_fields']:
-        #     if 'label' in cf and cf['label'] == 'Razón Social':
-        #         cliente_model.empresa = cf['value']
-        #     elif 'label' in cf and cf['label'] == 'RUC':
-        #         cliente_model.ruc = cf['value']
-        #     elif 'label' in cf and cf['label'] == 'DV':
-        #         cliente_model.dv = cf['value']
-        #     elif 'label' in cf and cf['label'] == 'Razón Social:':
-        #         cliente_model.empresa = cf['value']
-        #     elif 'label' in cf and cf['label'] == 'RUC:':
-        #         cliente_model.ruc = cf['value']
-        #     elif 'label' in cf and cf['label'] == 'DV:':
-        #         cliente_model.dv = cf['value']
-
-        if len(CorrectList) == 3:
-            return cliente_model
-        elif len(CorrectList) < 3:
-            return CorrectList
+        # -------------------------------------------
+        if len(ErrorList) == 0:
+            return 'Good'
+        else:
+            return ErrorList
     else:
 
         return 'No existen datos'
+
+def parse_contact_data(raw_data):
+    
+    # Build Model
+    cliente_model = Cliente(
+            empresa=raw_data['contact']['contact_name'],
+            direccion=raw_data['contact']['billing_address']['address']
+        )
+
+    for contact_person in raw_data['contact']['contact_persons']:
+        if contact_person['is_primary_contact'] and 'phone' in contact_person:
+            cliente_model.telefono = contact_person['phone']
+
+    # Insert data in array to fill fields
+    for cf in raw_data['contact']['custom_fields']:
+        if 'label' in cf and cf['label'] == 'Razón Social':
+            cliente_model.empresa = cf['value']
+        elif 'label' in cf and cf['label'] == 'RUC':
+            cliente_model.ruc = cf['value']
+        elif 'label' in cf and cf['label'] == 'DV':
+            cliente_model.dv = cf['value']
+        elif 'label' in cf and cf['label'] == 'Razón Social:':
+            cliente_model.empresa = cf['value']
+        elif 'label' in cf and cf['label'] == 'RUC:':
+            cliente_model.ruc = cf['value']
+        elif 'label' in cf and cf['label'] == 'DV:':
+            cliente_model.dv = cf['value']
+
+        
+    # Return
+    return cliente_model
 
 
 def translate_product(product):
@@ -181,33 +187,6 @@ def get_invoice(invoice_id):
 
     # Retrieve data from remote server
     raw_invoice = get_invoice_detail(invoice_id)
-
+    
     # Parse and return
-    return parse_invoice_data(raw_invoice)
-
-# def get_contact_custom_detail(data):
-#     box = []
-#     contact_id = data['invoice']['customer_id']
-#     raw_client = get_contact_detail(contact_id)
-#     print()
-#     # Parse custom fields
-#     for cf in raw_client['contact']['custom_fields']:
-#         if 'label' in cf and cf['label'] == 'Razón Social':
-#             rz = cf['value']
-#             box.append({'RazonSocial': rz})
-#         elif 'label' in cf and cf['label'] == 'RUC':
-#             ruc = cf['value']
-#             box.append({'RUC': ruc})
-#         elif 'label' in cf and cf['label'] == 'DV':
-#             dv = cf['value']
-#             box.append({'DV': dv})
-#         if 'label' in cf and cf['label'] == 'Razón Social:':
-#             rz = cf['value']
-#             box.append({'RazonSocial': rz})
-#         elif 'label' in cf and cf['label'] == 'RUC:':
-#             ruc = cf['value']
-#             box.append({'RUC': ruc})
-#         elif 'label' in cf and cf['label'] == 'DV:':
-#             dv = cf['value']
-#             box.append({'DV': dv})
-        
+    return parse_invoice_data(raw_invoice)       

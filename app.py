@@ -132,11 +132,13 @@ def create_invoice_json(invoice_id):
 @app.route('/print_gatomalo/<invoice_id>')
 @requires_auth
 def print_gatomalo(invoice_id):
-    factura = cloud_accounting.get_invoice(invoice_id)
-    #print(factura)
-    #factura.print()
-    return 'error'
-    #return jsonify(data=str(factura))
+    factura, ErrorData = cloud_accounting.get_invoice(invoice_id)
+    if ErrorData != 'Error':
+        print("DROP IT IF THIS FUNCT")
+        return factura
+    else:
+        factura.print()
+        return jsonify(data=str(factura))
 
 @app.route('/nota_credito', methods = ['POST'])
 @requires_auth
