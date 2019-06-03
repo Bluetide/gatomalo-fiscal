@@ -1,4 +1,5 @@
 from models.Cliente import Cliente
+import copy
 from models.Factura import Factura
 from models.NotaDeCredito import NotaDeCredito
 from models.Producto import Producto
@@ -93,6 +94,7 @@ def parse_contact_data(raw_data):
     x = 0
     # Build a custom field dictionary
     customLabel = ["Razón Social", "RUC", "DV", "Razón Social:", "RUC:", "DV:"]
+    custom_copy = copy.copy(customLabel)
     # Build Model
     cliente_model = Cliente(
             empresa=raw_data['contact']['contact_name'],
@@ -111,18 +113,22 @@ def parse_contact_data(raw_data):
         for contact_person in raw_data['contact']['contact_persons']:
             if contact_person['is_primary_contact'] and 'phone' in contact_person:
                 cliente_model.telefono = contact_person['phone']
-        
-        for chico in range(len(CorrectList)):
-            for grande in range(len(customLabel)):
-                if CorrectList[chico] == customLabel[grande]
-                    pos = 
-
-        print(ErrorList)
-
-        
+        print("---------------------")
+        print(CorrectList)
+        for chico in CorrectList:
+            # print(chico)
+            for grande in customLabel:
+                # print(grande)
+                if grande == chico:
+                    print("Dropit")
+                    print(grande)
+                    custom_copy.pop(x)
+                    # print(custom_copy)
+                    x-=1
             
-        
-        print(ErrorList)
+            x += 1     
+            
+        print(custom_copy)
         # Insert data in array to fill fields
         # for cf in raw_data['contact']['custom_fields']:
         #     if 'label' in cf and cf['label'] == 'Razón Social':
