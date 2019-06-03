@@ -1,5 +1,4 @@
 from models.Cliente import Cliente
-import copy
 from models.Factura import Factura
 from models.NotaDeCredito import NotaDeCredito
 from models.Producto import Producto
@@ -7,6 +6,7 @@ import os
 import requests
 import config
 import json
+import copy
 
 zoho_url_invoices = 'https://books.zoho.com/api/v3/invoices' #RESTful URL
 zoho_url_contacts = 'https://books.zoho.com/api/v3/contacts'
@@ -102,7 +102,6 @@ def criticalDataToPrint(raw_data):
     x = 0
 
     if len(raw_data['contact']['custom_fields']) != 0 :
-        print("tiene datos")
         for custom in customLabel:
             for cf in raw_data['contact']['custom_fields']:
                 if custom == cf['label']: 
@@ -190,3 +189,21 @@ def get_invoice(invoice_id):
 
     # Parse and return
     return parse_invoice_data(raw_invoice)       
+
+def get_contact_custom_detail(data):
+    box = []
+    contact_id = data['invoice']['customer_id']
+    raw_client = get_contact_detail(contact_id)
+    # Parse custom fields
+    for cf in raw_client['contact']['custom_fields']:
+        if 'label' in cf and cf['label'] == 'Razón Social':
+            rz = cf['value']
+            box.append({'RazonSocial': rz})
+        elif 'label' in cf and cf['label'] == 'RUC':
+            ruc = cf['value']
+            box.append({'RUC': ruc})
+        elif 'label' in cf and cf['label'] == 'DV':
+            dv = cf['value']
+            box.append({'DV': dv})
+    json.dumps(box)
+    return box

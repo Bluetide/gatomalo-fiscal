@@ -23,9 +23,12 @@ from models.Producto import Producto
 from datetime import datetime, timedelta
 from time import sleep
 import config
+# tinydb is like mongodb ,by: lay
+from tinydb import TinyDB, Query
 
+db = TinyDB('./db/db.json')
 
-init_db()
+# init_db()
 
 #logger = logging.getLogger('flask')
 facturas = []
@@ -93,22 +96,46 @@ def index(page=1):
     invoice_list, page_context = cloud_accounting.get_invoice_list(page)
     json.dumps(invoice_list)
     printed_invoices = set([f.zoho_id for f in db_session.query(Factura).all()])
+    db_id = db.all()
+    print(db_id)
     #print(printed_invoices)
     return render_template('index.html',
         invoices=invoice_list, printed=printed_invoices, page_context=page_context)
-# Lay snippet
-@app.route('/printed')
-@app.route('/printed/<page>')
+# elay working to show invoice details through api cloud counting
+@app.route('/info/<invoice_id>')
 @requires_auth
-def printed(page=1):
-    session = db_worker.session_maker()
-    db_printed = db_worker.all_facturas(session)
-    invoice = cloud_accounting.get_invoice("1349400000001010023")
-    print(invoice)
-    print("dropit")
-    print(db_printed)
-    return render_template('printed.html', invoices_printed = db_printed)
-# End
+def info(invoice_id):
+    factura = cloud_accounting.get_invoice_detail(invoice_id)
+    contact = cloud_accounting.get_contact_custom_detail(factura)
+    json.dumps(factura)
+    return render_template('show.html',data=factura, contact_invoice = contact)
+
+@app.route('/custom_invoice') #get view
+@requires_auth
+def customInvoice():
+    return render_template('customInvoice.html')
+
+@app.route('/custom_invoice_api', methods = ['POST'])
+@requires_auth
+def customform():
+        print(request.get_json())
+        session = db_worker.session_maker()
+        if request.json and 'factura' in request.json:
+            productos = request.json['factura']['productos']
+            cliente =  request.json['factura']['cliente']
+        elif request.form:
+            cliente = parse_cliente_from_post(request)
+            productos = parse_productos_from_post(request)
+        else:
+            abort(400)
+        try:
+            factura,productos,cliente = db_worker.create_factura(session,cliente,productos)
+        except Exception as e:
+                raise(e)
+                session.rollback()
+        printer.write_string_to_printer(str(factura))
+        return str(factura)
+
 @app.route('/print_today')
 @requires_auth
 def print_today():
@@ -132,15 +159,17 @@ def create_invoice_json(invoice_id):
 @app.route('/print_gatomalo/<invoice_id>')
 @requires_auth
 def print_gatomalo(invoice_id):
+    table = db.table('zoho_id')
     factura, ErrorData = cloud_accounting.get_invoice(invoice_id)
+    print("kik")
+    table.insert({'id': '156'})
+    table.all()
     if ErrorData == 'Error':
-        print(factura)
-        print("DROP IT IF THIS FUNCT")
         json.dumps(factura)
         return jsonify(data=factura)
     else:
-        print("estoy bien")
         # factura.print()
+        
         return jsonify(data=str(factura))
 
 @app.route('/nota_credito', methods = ['POST'])
