@@ -58,7 +58,7 @@ def show_info(invoice_id):
     parse_detail = parse_info_data(invoice_id)
     return parse_detail
 def parse_invoice_data(data):
-
+    dataError = 'Error'
     #Get variables
     customer_name = data["invoice"]["customer_name"]
     address = data["invoice"]["billing_address"]["address"]
@@ -89,9 +89,9 @@ def parse_invoice_data(data):
 
     # Return the invoice Model filter if the critical data passed
     if filter == 'Good':
-        return invoice_model
+        return invoice_model, 'Good'
     else:
-        dataError = 'Error'
+        print("Sad")
         return filter, dataError
 
 def criticalDataToPrint(raw_data):

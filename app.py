@@ -27,7 +27,7 @@ import config
 from tinydb import TinyDB, Query
 
 db = TinyDB('./db/db.json')
-
+table = db.table("gatomalo")
 # init_db()
 
 #logger = logging.getLogger('flask')
@@ -96,8 +96,8 @@ def index(page=1):
     invoice_list, page_context = cloud_accounting.get_invoice_list(page)
     json.dumps(invoice_list)
     printed_invoices = set([f.zoho_id for f in db_session.query(Factura).all()])
-    db_id = db.all()
-    print(db_id)
+    allTable = table.all()
+    print(allTable)
     #print(printed_invoices)
     return render_template('index.html',
         invoices=invoice_list, printed=printed_invoices, page_context=page_context)
@@ -159,17 +159,15 @@ def create_invoice_json(invoice_id):
 @app.route('/print_gatomalo/<invoice_id>')
 @requires_auth
 def print_gatomalo(invoice_id):
-    table = db.table('zoho_id')
     factura, ErrorData = cloud_accounting.get_invoice(invoice_id)
-    print("kik")
-    table.insert({'id': '156'})
-    table.all()
+    # table.insert({"id": '156'})
+    # table.all()
     if ErrorData == 'Error':
         json.dumps(factura)
         return jsonify(data=factura)
     else:
-        # factura.print()
-        
+        table.insert({"ZohoId": invoice_id})
+        factura.print()
         return jsonify(data=str(factura))
 
 @app.route('/nota_credito', methods = ['POST'])

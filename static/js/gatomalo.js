@@ -35,11 +35,11 @@ $(function(){
     $.ajax({
       url:'/print_gatomalo/' + idInvoice,
       method:'GET',
-    }).done(function(result){
-      console.log(result)
-      if(result.data == null || result.data == undefined){
+    }).done(function(result){      
+      console.log(typeof(result))
+      if(typeof(result) == 'string'){
         progressBar.hidePleaseWait();
-        location.reload(true);
+        // location.reload(true);
       }else{
         $(".progress").addClass("d-none");
         $("#restart").removeClass("disabled");
