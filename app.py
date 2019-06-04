@@ -185,7 +185,6 @@ def print_gatomalo(invoice_id):
 @app.route('/nota_credito', methods = ['POST'])
 @requires_auth
 def post_credit_note():
-
     # Make sure we have the correct arguments
     if not 'invoice_id' in request.form or not 'fiscal_id' in request.form:
         abort(400)
@@ -198,7 +197,6 @@ def post_credit_note():
     if not len(invoice_id) > 0 and len(fiscal_id) > 0:
         abort(400)
     else:
-
         # Get the invoice from remote serverer
         invoice = cloud_accounting.get_invoice(invoice_id)
         nota_credito = NotaDeCredito(fiscal_id, invoice)

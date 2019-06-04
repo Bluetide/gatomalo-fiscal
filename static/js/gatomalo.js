@@ -3,28 +3,54 @@ $(function(){
     // Sad Trombone by Joe Lamb. CC Attribution. Source: http://soundbible.com/1830-Sad-Trombone.html
     //var audio2 = new Audio('{{ url_for('static', filename='audio/sad.mp3') }}');
   //Test Invoice
+
   $('.test_invoice').click(function(event){
     const invoiceId = event.target.dataset.invoiceId;
     $.post("/test_no_fiscal/" + invoiceId , {});
   });
   //Get Fiscal ID Modal
   // Setup the invoice ID dialog when the user clicks a Credit Note button
-          
-  var getFiscalIDDialog = $('#getFiscalIDDialog');
-
-  getFiscalIDDialog.on('show.bs.modal', function(event){
-    var button = $(event.relatedTarget);
-    $("#getFiscalIDDialog #invoice_id").val(button.data("id"));
-  });
-  // Setup the POST for the Invoice ID dialog
+  $("#getFiscalIDDialog").on("show.bs.modal", function(e){
+    const idData = $(e.relatedTarget);
+    $("#getFiscalIDDialog #invoice_id").val(idData.data("id"));
+  });        
+  
   $("#getFiscalIDDialog .submit").click(function(){
-    getFiscalIDDialog.modal('hide');
-    myApp.showPleaseWait();
-    $.post("/nota_credito", $("#getFiscalIDDialog .form").serialize())
-      .done(function(data){ myApp.hidePleaseWait(); location.reload(true); })
-      .error(function(data){ alert(data.responseText); })
-      ;
-  });
+    $("#getFiscalIDDialog").modal('hide');
+    const boxOutput = $("#getFiscalIDDialog .form").serialize();
+    console.log(boxOutput)
+    $.ajax({
+      url: '/nota_credito',
+      method: 'POST',
+      dataType: "json",
+      data: boxOutput,
+      success: function(success){
+        const view = JSON.stringify(success)
+        alert(view)
+        // location.reload(true);
+      },
+      error: function(error){
+        console.log(error)
+        alert(JSON.stringify(error))
+      }
+    });
+    return false;
+  })
+  // var getFiscalIDDialog = $('#getFiscalIDDialog');
+
+  // getFiscalIDDialog.on('show.bs.modal', function(event){
+  //   var button = $(event.relatedTarget);
+  //   $("#getFiscalIDDialog #invoice_id").val(button.data("id"));
+  // });
+  // Setup the POST for the Invoice ID dialog
+  // $("#getFiscalIDDialog .submit").click(function(){
+  //   getFiscalIDDialog.modal('hide');
+  //   myApp.showPleaseWait();
+  //   $.post("/nota_credito", $("#getFiscalIDDialog .form").serialize())
+  //     .done(function(data){ myApp.hidePleaseWait(); location.reload(true); })
+  //     .error(function(data){ alert(data.responseText); })
+  //     ;
+  // });
   // Setup 'Print' Button
   //Elay setup
   $(".print_button").click(function(e){
