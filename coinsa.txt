@@ -1,0 +1,10 @@
+jFTFBX110002122-00000798
+jSCOINSA
+j1Direccion: Costa del Este, Avenida B, Local No.50 Parque Lefevre, Ciudad de Panama Rep. Panama
+j2Telefono: 300-3000
+jR1269688-1-597454
+d!000000420000012000Horas de Desarrollo
+d!000002250000001000E-Commerce - Subida de Inventario (Shopify)
+3
+q-000000000
+101
