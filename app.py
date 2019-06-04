@@ -93,14 +93,16 @@ def make_factura():
 @app.route('/<page>')
 @requires_auth
 def index(page=1):
+    IdPrinted = []
     invoice_list, page_context = cloud_accounting.get_invoice_list(page)
     json.dumps(invoice_list)
-    printed_invoices = set([f.zoho_id for f in db_session.query(Factura).all()])
-    allTable = table.all()
-    print(allTable)
-    #print(printed_invoices)
+    # printed_invoices = set([f.zoho_id for f in db_session.query(Factura).all()])
+    for d in table.all():
+        IdPrinted.append(d['ZohoId'])
+    json.dumps(IdPrinted)
+    
     return render_template('index.html',
-        invoices=invoice_list, printed=printed_invoices, page_context=page_context)
+        invoices=invoice_list, printed=IdPrinted, page_context=page_context)
 # elay working to show invoice details through api cloud counting
 @app.route('/info/<invoice_id>')
 @requires_auth
