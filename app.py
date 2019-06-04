@@ -135,6 +135,18 @@ def customform():
                 session.rollback()
         printer.write_string_to_printer(str(factura))
         return str(factura)
+#------------------
+
+@app.route('/test_no_fiscal/<id_test>', methods = ['POST'])
+@requires_auth
+def nofisca(id_test):
+    id = cloud_accounting.get_invoice(id_test)
+    result = id.print_no_fiscal()
+    printer.write_string_to_printer(str(result))
+    return result
+
+
+# end funct
 
 @app.route('/print_today')
 @requires_auth
