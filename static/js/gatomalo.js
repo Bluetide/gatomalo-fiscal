@@ -5,8 +5,20 @@ $(function(){
   //Test Invoice
 
   $('.test_invoice').click(function(event){
-    const invoiceId = event.target.dataset.invoiceId;
-    $.post("/test_no_fiscal/" + invoiceId , {});
+    let invoiceId = event.target.dataset.invoiceId;
+    console.log(invoiceId);
+    $.ajax({
+      url: "/test_no_fiscal/" + invoiceId,
+      method: "POST",
+      data:{},
+      success: function(response){
+        console.log(response);
+        alert(response);
+      },
+      error: function(error){
+        alert(error);
+      }
+    });
   });
   //Get Fiscal ID Modal
   // Setup the invoice ID dialog when the user clicks a Credit Note button
