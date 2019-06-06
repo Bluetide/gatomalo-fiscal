@@ -77,7 +77,7 @@ $(function(){
       console.log(typeof(result))
       if(typeof(result) == 'string'){
         progressBar.hidePleaseWait();
-        // location.reload(true);
+        location.reload(true);
       }else{
         $(".progress").addClass("d-none");
         $("#restart").removeClass("disabled");
