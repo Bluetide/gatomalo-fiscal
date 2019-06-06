@@ -202,13 +202,14 @@ def post_credit_note():
         abort(400)
     else:
         # Get the invoice from remote serverer
-        invoice = cloud_accounting.get_invoice(invoice_id)
-        nota_credito = NotaDeCredito(fiscal_id, invoice)
-        print(nota_credito)
-        nota_credito.print()
-        #print(jsonify(nota_credito))
-        # Return response
-        return jsonify(data=str(nota_credito))
+        invoice, ErrorData = cloud_accounting.get_invoice(invoice_id)
+        if ErrorData == 'Error':
+            json.dumps(invoice)
+            return jsonify(data=invoice)
+        else:
+            nota_credito = NotaDeCredito(fiscal_id, invoice)
+            nota_credito.print()
+            return jsonify(data=str(nota_credito))
 
 @app.route('/reporteX')
 @requires_auth
