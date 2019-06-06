@@ -64,8 +64,6 @@
             <tr class="{{ 'table-warning' if invoice.invoice_id in printed }} 
             {%if invoice.status == 'draft'%}              
               not-allowed
-              {%else%}
-              pointer_link
             {%endif%}
             " id_invoice="{{invoice.invoice_id}}">
               <th scope="row" >{{loop.index}}</th>
@@ -88,8 +86,8 @@
               </td>
               <td>{{ "${:,.2f}".format(invoice.total) }}</td>
               <td>{{ invoice.date }}</td>
-              <td>
-                  <a class="btn btn-primary text-light text-light btn-sm {%if invoice.status == 'draft'%}disabled{%endif%} print_button " data-id="{{ invoice.invoice_id }}" role="button">Print</a>
+              <td class="{{ 'not-allowed' if invoice.invoice_id in printed }}">
+                  <a class="btn btn-primary text-light text-light btn-sm {{ 'disabled' if invoice.invoice_id in printed }} {%if invoice.status == 'draft'%}disabled{%endif%} print_button " data-id="{{ invoice.invoice_id }}" role="button">Print</a>
               </td>
               <td>
                   <a class="btn btn-light btn-sm new-btn-light test_invoice" data-invoice-id="{{ invoice.invoice_id }}" role="button">Demo</a>

@@ -147,7 +147,6 @@ def nofisca(id_test):
         json.dumps(id)
         return jsonify(data=id)
     else:
-        print(id)
         result = id.print_no_fiscal()
         printer.write_string_to_printer(str(result))
         return result
@@ -179,8 +178,6 @@ def create_invoice_json(invoice_id):
 @requires_auth
 def print_gatomalo(invoice_id):
     factura, ErrorData = cloud_accounting.get_invoice(invoice_id)
-    # table.insert({"id": '156'})
-    # table.all()
     if ErrorData == 'Error':
         json.dumps(factura)
         return jsonify(data=factura)

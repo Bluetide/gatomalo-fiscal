@@ -64,7 +64,6 @@ class Factura(Base):
         return factura
 
     def print_no_fiscal(self):
-        print("aqui estan pasando por el print no fiscal")
         print(self)
         lines = []
         lines.append( '800' + self.cliente.empresa)
