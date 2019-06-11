@@ -85,6 +85,9 @@
                  {%elif invoice.status == 'draft'%}
                  <span class="badge badge-secondary">{{invoice.status | capitalize}}</span>
                 {%endif%}
+                {%if invoice.invoice_id in printed%}
+                <span class="badge badge-dark">Printed</span>
+                {%endif%}
               </td>
               <td>{{ "${:,.2f}".format(invoice.total) }}</td>
               <td>{{ invoice.date }}</td>

@@ -98,7 +98,7 @@ def index(page=1):
     json.dumps(invoice_list)
     # printed_invoices = set([f.zoho_id for f in db_session.query(Factura).all()])
     for d in table.all():
-        IdPrinted.append(d['ZohoId'])
+        IdPrinted.append(d['invoice_id'])
     json.dumps(IdPrinted)
     
     return render_template('index.html',
@@ -182,7 +182,8 @@ def print_gatomalo(invoice_id):
         json.dumps(factura)
         return jsonify(data=factura)
     else:
-        table.insert({"ZohoId": invoice_id})
+        rawData = cloud_accounting.get_invoice_detail(invoice_id)
+        table.insert(rawData["invoice"])
         factura.print()
         return jsonify(data=str(factura))
 
