@@ -2,7 +2,6 @@
 tfunilx
 Retorno.txt
 Puerto.txt
-db/*.json
 #autoenv
 .env
 
@@ -15,7 +14,7 @@ __pycache__/
 
 # custom ignores
 local.sh
-
+db/*.json
 # Distribution / packaging
 .Python
 venv/
