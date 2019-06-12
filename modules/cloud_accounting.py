@@ -19,6 +19,20 @@ def get_invoice_list(page):
     r = requests.get(zoho_url_invoices,params=auth)
     json_response = r.json()
     return json_response['invoices'], json_response['page_context']
+def get_search_invoice_list(searching):
+    auth = {'authtoken':zoho_authtoken,'organization_id':zoho_organization_id,'sort_column':'date'}
+
+    dictA = json.loads(auth)
+    dictB = json.loads(searching)
+
+
+    k = {key: value for (key, value) in (dictA.items() + dictB.items())}
+    jsonMerge = json.dumps(k)
+    print(jsonMerge)
+    return 'data'
+    # r = requests.get(zoho_url_invoices,params=auth)
+    # json_response = r.json()
+    # return json_response['invoices'], json_response['page_context']
 
 def get_invoice_detail(post):
     url = zoho_url_invoices + "/" + post

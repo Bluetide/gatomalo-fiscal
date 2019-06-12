@@ -103,6 +103,22 @@ def index(page=1):
     
     return render_template('index.html',
         invoices=invoice_list, printed=IdPrinted, page_context=page_context)
+# elay search invoice form
+@app.route('/search') 
+@requires_auth
+def searchForm():
+    Quest = {
+        'status': request.values.get("status"),
+        'search_text': request.values.get("search")
+    }
+    aleluya = json.dumps(Quest)
+    catch = cloud_accounting.get_search_invoice_list(aleluya)
+    # wala = cloud_accounting.get_search_invoice_list(params)
+    return 'DrOP'
+
+
+
+
 # elay working to show invoice details through api cloud counting
 @app.route('/info/<invoice_id>')
 @requires_auth
