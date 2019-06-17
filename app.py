@@ -107,14 +107,17 @@ def index(page=1):
 @app.route('/search') 
 @requires_auth
 def searchForm():
-    Quest = {
-        'status': request.values.get("status"),
-        'search_text': request.values.get("search")
-    }
-    aleluya = json.dumps(Quest)
-    catch = cloud_accounting.get_search_invoice_list(aleluya)
-    # wala = cloud_accounting.get_search_invoice_list(params)
-    return 'DrOP'
+    box = {}
+    IdPrinted = []
+    for d in table.all():
+        IdPrinted.append(d['invoice_id'])
+    json.dumps(IdPrinted)
+    for x in request.values:
+        box[x] = request.values.get(x)
+    json.dumps(box)
+    catch, page_context = cloud_accounting.get_search_invoice_list(box)
+    return render_template('index.html',
+        invoices=catch, printed=IdPrinted, page_context=page_context)
 
 
 
