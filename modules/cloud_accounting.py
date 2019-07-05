@@ -6,14 +6,16 @@ import os
 import requests
 import config
 import json
+import copy
 
 zoho_url_invoices = 'https://books.zoho.com/api/v3/invoices' #RESTful URL
 zoho_url_contacts = 'https://books.zoho.com/api/v3/contacts'
 zoho_authtoken = config.zoho_auth
 zoho_organization_id = config.zoho_org
 
+
 def get_invoice_list(page):
-    auth = {'authtoken':zoho_authtoken,'organization_id':zoho_organization_id, 'page': page, 'per_page': 50}
+    auth = {'authtoken':zoho_authtoken,'organization_id':zoho_organization_id, 'page': page, 'per_page': 30}
     r = requests.get(zoho_url_invoices,params=auth)
     json_response = r.json()
     return json_response['invoices'], json_response['page_context']
@@ -56,7 +58,7 @@ def show_info(invoice_id):
     parse_detail = parse_info_data(invoice_id)
     return parse_detail
 def parse_invoice_data(data):
-
+    dataError = 'Error'
     #Get variables
     customer_name = data["invoice"]["customer_name"]
     address = data["invoice"]["billing_address"]["address"]
@@ -76,6 +78,8 @@ def parse_invoice_data(data):
         contact_id = data['invoice']['customer_id']
         raw_client = get_contact_detail(contact_id)
         client_model = parse_contact_data(raw_client)
+        # filter variable to decide if pass or not
+        filter = criticalDataToPrint(raw_client)
     except Exception as e:
         # Safe defaults
         client_model = Cliente(empresa=customer_name, direccion=address)
@@ -83,18 +87,58 @@ def parse_invoice_data(data):
     invoice_model = Factura(invoice_id, client_model, global_discount)
     invoice_model.productos = [translate_product(p) for p in data["invoice"]["line_items"]]
 
-    # Return the invoice Model
-    return invoice_model
+    # Return the invoice Model filter if the critical data passed
+    if filter == 'Good':
+        return invoice_model, 'Good'
+    else:
+        print("Sad")
+        return filter, dataError
+
+def criticalDataToPrint(raw_data):
+    # Build a custom field dictionary
+    customLabel = ["Razón Social", "RUC", "DV"]
+    ErrorList = copy.copy(customLabel)
+    CorrectList = []
+    x = 0
+
+    if len(raw_data['contact']['custom_fields']) != 0 :
+        for custom in customLabel:
+            for cf in raw_data['contact']['custom_fields']:
+                if custom == cf['label']: 
+                    CorrectList.append(cf['label'])
+                    break
+                else:
+                    continue
+        # Iteracion de valores de 2 arreglos para poder sacar los valores correctos y 
+        # dejar solo los incorrectos, esto con el objetivo de imprimir los valores criticos faltantes para la impresion
+        for chico in CorrectList:
+            for grande in customLabel:
+                if grande == chico:
+                    ErrorList.pop(x)
+                    x-=1
+            x += 1     
+        # -------------------------------------------
+        if len(ErrorList) == 0:
+            return 'Good'
+        else:
+            return ErrorList
+    else:
+
+        return 'No existen datos'
 
 def parse_contact_data(raw_data):
-
+    
     # Build Model
     cliente_model = Cliente(
             empresa=raw_data['contact']['contact_name'],
             direccion=raw_data['contact']['billing_address']['address']
         )
 
-    # Parse custom fields
+    for contact_person in raw_data['contact']['contact_persons']:
+        if contact_person['is_primary_contact'] and 'phone' in contact_person:
+            cliente_model.telefono = contact_person['phone']
+
+    # Insert data in array to fill fields
     for cf in raw_data['contact']['custom_fields']:
         if 'label' in cf and cf['label'] == 'Razón Social':
             cliente_model.empresa = cf['value']
@@ -109,11 +153,7 @@ def parse_contact_data(raw_data):
         elif 'label' in cf and cf['label'] == 'DV:':
             cliente_model.dv = cf['value']
 
-    # Parse Phone number
-    for contact_person in raw_data['contact']['contact_persons']:
-        if contact_person['is_primary_contact'] and 'phone' in contact_person:
-            cliente_model.telefono = contact_person['phone']
-
+        
     # Return
     return cliente_model
 
@@ -148,13 +188,12 @@ def get_invoice(invoice_id):
     raw_invoice = get_invoice_detail(invoice_id)
 
     # Parse and return
-    return parse_invoice_data(raw_invoice)
+    return parse_invoice_data(raw_invoice)       
 
 def get_contact_custom_detail(data):
     box = []
     contact_id = data['invoice']['customer_id']
     raw_client = get_contact_detail(contact_id)
-    print()
     # Parse custom fields
     for cf in raw_client['contact']['custom_fields']:
         if 'label' in cf and cf['label'] == 'Razón Social':
@@ -164,15 +203,6 @@ def get_contact_custom_detail(data):
             ruc = cf['value']
             box.append({'RUC': ruc})
         elif 'label' in cf and cf['label'] == 'DV':
-            dv = cf['value']
-            box.append({'DV': dv})
-        if 'label' in cf and cf['label'] == 'Razón Social:':
-            rz = cf['value']
-            box.append({'RazonSocial': rz})
-        elif 'label' in cf and cf['label'] == 'RUC:':
-            ruc = cf['value']
-            box.append({'RUC': ruc})
-        elif 'label' in cf and cf['label'] == 'DV:':
             dv = cf['value']
             box.append({'DV': dv})
     json.dumps(box)
