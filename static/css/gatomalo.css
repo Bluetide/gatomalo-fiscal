@@ -98,3 +98,37 @@ th.table-cliente{
 }
 
 /*----------------------*/
+
+/*----404------*/
+
+.title-404{
+  margin: 0 auto;
+  padding: 100px;
+  color:#00695E;
+  text-align: center;
+}
+
+.info-404{
+  padding: 30px;
+  margin:0 auto;
+  text-align: center;
+}
+
+.text-404{
+  padding-right:10px;
+  font-size: 26px;
+}
+
+.link-404{
+  font-weight: 200;
+  
+}
+
+/*-----------Main Menu----*/
+
+
+@media (min-width: 768px){
+  .container {
+      max-width: 95%!important;
+  }
+}
