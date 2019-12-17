@@ -1,0 +1,1 @@
+@DailyClose|ERROR|0000|8620|0|ERROR 0|

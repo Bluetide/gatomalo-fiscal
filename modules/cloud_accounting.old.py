@@ -76,7 +76,6 @@ def parse_invoice_data(data):
     invoice_model = Factura(invoice_id, client_model, global_discount)
     invoice_model.productos = [translate_product(p) for p in data["invoice"]["line_items"]]
 
-
     # Return the invoice Model
     return invoice_model
 
@@ -110,11 +109,11 @@ def translate_product(product):
 
     # Parse tax value
     if product["tax_percentage"] == 7:
-        tasa = '07.00'
+        tasa = 1
     elif product["tax_percentage"] == 0:
-        tasa = '00.00'
+        tasa = 0
     elif product["tax_percentage"] == 10:
-        tasa = '10.00'
+        tasa = 2
     else:
         tasa = 'error'
 
@@ -134,5 +133,6 @@ def get_invoice(invoice_id):
 
     # Retrieve data from remote server
     raw_invoice = get_invoice_detail(invoice_id)
+    print(raw_invoice)
     # Parse and return
     return parse_invoice_data(raw_invoice)

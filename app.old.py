@@ -10,7 +10,6 @@ from flask import redirect
 from flask import url_for
 from modules import printer
 from modules import cloud_accounting
-from modules import db_worker
 import os
 import json
 from functools import wraps
@@ -50,41 +49,6 @@ def requires_auth(f):
         return f(*args, **kwargs)
     return decorated
 
-def parse_cliente_from_post(post):
-    empresa = post.form['factura[cliente][empresa]']
-    direccion = post.form['factura[cliente][direccion]']
-    telefono = post.form['factura[cliente][telefono]']
-    ruc = post.form['factura[cliente][ruc]']
-    return { 'empresa':empresa,'direccion':direccion,'telefono':telefono,'ruc':ruc }
-
-def parse_productos_from_post(post):
-    nombre = post.form['factura[productos][nombre]']
-    cantidad = post.form['factura[productos][cantidad]']
-    tasa = post.form['factura[productos][tasa]']
-    precio = post.form['factura[productos][precio]']
-    return { 'nombre':nombre,'cantidad':cantidad,'tasa':tasa,'precio':precio }
-
-@app.route('/facturas_api', methods = ['POST'])
-def make_factura():
-    print(request.json)
-    session = db_worker.session_maker()
-    if request.json and 'factura' in request.json:
-        productos = request.json['factura']['productos']
-        cliente =  request.json['factura']['cliente']
-    elif request.form:
-        cliente = parse_cliente_from_post(request)
-        productos = parse_productos_from_post(request)
-    else:
-        abort(400)
-    try:
-        factura,productos,cliente = db_worker.create_factura(session,cliente,productos)
-    except Exception as e:
-            raise(e)
-            session.rollback()
-    printer.write_string_to_printer(str(factura))
-    return str(factura)
-
-
 @app.route('/')
 @app.route('/<page>')
 @requires_auth
@@ -94,19 +58,7 @@ def index(page=1):
     printed_invoices = set([f.zoho_id for f in db_session.query(Factura).all()])
     return render_template('index.html',
         invoices=invoice_list, printed=printed_invoices, page_context=page_context)
-# Lay snippet
-@app.route('/printed')
-@app.route('/printed/<page>')
-@requires_auth
-def printed(page=1):
-    session = db_worker.session_maker()
-    db_printed = db_worker.all_facturas(session)
-    invoice = cloud_accounting.get_invoice("1349400000001010023")
-    print(invoice)
-    print("dropit")
-    print(db_printed)
-    return render_template('printed.html', invoices_printed = db_printed)
-# End
+
 @app.route('/print_today')
 @requires_auth
 def print_today():
@@ -159,7 +111,7 @@ def post_credit_note():
         # Return response
         return jsonify(data=str(nota_credito))
 
-@app.route('/facturas', methods = ['GET','POST'])
+@app.route('/facturas', methods = ['GET'])
 @requires_auth
 def get_facturas():
     return jsonify(data=cloud_accounting.get_invoice_list())
@@ -167,14 +119,14 @@ def get_facturas():
 @app.route('/reporteX')
 @requires_auth
 def reporteX():
-    printer.print_X()
+    printer.write_string_to_printer('I0X')
     return redirect(url_for('index'))
 
 @app.route('/reporteZ')
 @requires_auth
 def reporteZ():
-    printer.print_Z()
+    printer.write_string_to_printer('I0Z')
     return redirect(url_for('index'))
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=5555)
+    app.run(debug=True, host='0.0.0.0')
