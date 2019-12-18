@@ -42,7 +42,7 @@ def create_nota(session,factura_id,legacy_id):
     session.commit()
     session.refresh(nota)
     return nota
-
+   
 
 def all_facturas(session):
     facturas = session.query(Factura).all()

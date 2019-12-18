@@ -7,7 +7,7 @@ Environment="ZOHO_ORG=11111"
 Environment="ADMIN_USERNAME=1111"
 Environment="ADMIN_PASSWORD=1111"
 Type=simple
-User=ubuntu
+User=btc
 WorkingDirectory=/gatomalo
 ExecStart=/gatomalo/venv/bin/python /gatomalo/app.py
 

@@ -31,9 +31,9 @@ class NotaDeCredito(Base):
 
     def print(self):
         printer.write_string_to_printer(str(self))
-        self.print_date = datetime.now()
-        db_session.add(self)
-        db_session.commit()
+        #self.print_date = datetime.now()
+        #db_session.add(self)
+        #db_session.commit()
 
     def get_descuento(self):
         return "q-%09d" % self.factura.descuento.shift(2)

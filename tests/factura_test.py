@@ -1,14 +1,14 @@
 import random
 import re
 import unittest
-from bs4 import BeautifulSoup,SoupStrainer
+# from bs4 import BeautifulSoup,SoupStrainer
 from decimal import Decimal
 from datetime import datetime
 from time import sleep
 from models.models import *
 from modules import db_worker
 
-db_url = os.environ['panadata_testing']
+db_url = os.environ['Bluetide']
 engine = create_engine(db_url, convert_unicode=True)
 Base.metadata.create_all(engine)
 session_maker = sessionmaker(bind=engine)

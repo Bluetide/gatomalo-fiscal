@@ -1,0 +1,131 @@
+.id_customer{
+  display: block;
+  font-size: 10px;
+  font-weight: 300;
+}
+.detail h1{
+  font-size: 24px;
+  margin: 0;
+}
+.detail h2{
+  font-size: 24px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+.info_nav{
+  display: block;
+  font-size: 10px;
+  margin-left: 5px;
+}
+.box_action a{
+  margin: 5px;
+}
+.info p{
+  font-size: 14px;
+  margin: 0;
+  font-weight: 600;
+}
+.info span{
+  font-size: 14px;
+  margin-bottom: 12px;
+  display: block;
+  margin-left: 5px;
+  line-height: 26px;
+}
+.info_title{
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 16px;
+}
+.progress-bar {
+  -webkit-transition: none !important;
+  transition: none !important;
+}
+.not-allowed{
+  cursor: not-allowed !important;
+}
+.pointer_link{
+  cursor: pointer !important;
+}
+tbody tr{
+  font-size:14px;
+  text-transform: capitalize;
+}
+tbody tr td a{
+  font-size:14px;
+  text-transform: capitalize;
+  font-weight: bold !important;
+  text-decoration: underline;
+}
+
+/*------------HOME----------------*/
+a.btn.btn-sm.btn-home-top {
+  font-weight: bold;
+  margin-left: 50px;
+  font-size: 16px;
+  background-color: #0c548e;
+  border: #0c548e;
+  padding: 5px 20px;
+  color:white;
+}
+
+h5.display-4, .lead {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.btn:not(:disabled):not(.disabled) {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+a.new-btn-light {
+  background-color: #009688;
+  color: white!important;
+}
+
+.new-btn-light:hover {
+  color: #ffffff9e!important;
+  background-color: #00695E;
+  border-color: #dae0e5;
+}
+
+th.table-cliente{
+  text-align: center;
+}
+
+/*----------------------*/
+
+/*----404------*/
+
+.title-404{
+  margin: 0 auto;
+  padding: 100px;
+  color:#00695E;
+  text-align: center;
+}
+
+.info-404{
+  padding: 30px;
+  margin:0 auto;
+  text-align: center;
+}
+
+.text-404{
+  padding-right:10px;
+  font-size: 26px;
+}
+
+.link-404{
+  font-weight: 200;
+  
+}
+
+/*-----------Main Menu----*/
+
+
+@media (min-width: 768px){
+  .container {
+      max-width: 95%!important;
+  }
+}
