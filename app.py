@@ -1,5 +1,4 @@
 #!flask/bin/python
-from modules.zoho import zoho
 from flask import Flask
 from flask import jsonify
 from flask import request
