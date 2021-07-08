@@ -78,6 +78,10 @@ curl -sSL https://raw.githubusercontent.com/Bluetide/gatomalo-fiscal/master/setu
     sudo ./tfunilx SendCmd Rf01401010150401
     ```
 
+## For API usage
+
+
+
 ## Credits
 Ivan Barria Grimaldo [@ibarria0](https://github.com/ibarria0)
 
