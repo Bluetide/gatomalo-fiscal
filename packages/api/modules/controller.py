@@ -1,6 +1,5 @@
 from flask import Blueprint, request, abort
 from modules import printer
-from ..helpers import parse_invoice
 from .parsers import parse_invoice, parse_credit_note
 from json import dumps
 from .auth import requires_auth
