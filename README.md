@@ -80,7 +80,7 @@ curl -sSL https://raw.githubusercontent.com/Bluetide/gatomalo-fiscal/master/setu
 
 ## For API usage
 
-
+[Ver documentación](https://documenter.getpostman.com/view/8707882/Tzm3pJCR)
 
 ## Credits
 Ivan Barria Grimaldo [@ibarria0](https://github.com/ibarria0)
