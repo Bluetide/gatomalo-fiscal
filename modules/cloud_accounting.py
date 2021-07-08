@@ -2,53 +2,46 @@ from models.Cliente import Cliente
 from models.Factura import Factura
 from models.NotaDeCredito import NotaDeCredito
 from models.Producto import Producto
-import os
-import requests
-import config
+from modules.zoho import zoho
 
-zoho_url_invoices = 'https://books.zoho.com/api/v3/invoices' #RESTful URL
+zoho_url_invoices = 'https://books.zoho.com/api/v3/invoices'  # RESTful URL
 zoho_url_contacts = 'https://books.zoho.com/api/v3/contacts'
-zoho_authtoken = config.zoho_auth
-zoho_organization_id = config.zoho_org
+
 
 def get_invoice_list(page):
-    auth = {'authtoken':zoho_authtoken,'organization_id':zoho_organization_id, 'page': page}
-    r = requests.get(zoho_url_invoices,params=auth)
-    json_response = r.json()
+    json_response = zoho.get(zoho_url_invoices, params={'page': page})
     return json_response['invoices'], json_response['page_context']
+
 
 def get_invoice_detail(post):
     url = zoho_url_invoices + "/" + post
-    auth = {'authtoken':zoho_authtoken,'organization_id':zoho_organization_id}
-    r = requests.get(url,params=auth)
-    invoice = r.json()
+    invoice = zoho.get(url)
     return invoice
 
+
 def get_contact_detail(contact_id):
-    request_url = zoho_url_contacts + "/" +  contact_id
-    response = requests.get(request_url, params={
-            'authtoken':zoho_authtoken,
-            'organization_id':zoho_organization_id
-        })
-    return response.json()
+    return zoho.get(zoho_url_contacts + "/" + contact_id)
+
 
 def parse_cliente_from_post(post):
     empresa = post.form['factura[cliente][empresa]']
     direccion = post.form['factura[cliente][direccion]']
     telefono = post.form['factura[cliente][telefono]']
     ruc = post.form['factura[cliente][ruc]']
-    return { 'empresa':empresa,'direccion':direccion,'telefono':telefono,'ruc':ruc }
+    return {'empresa': empresa, 'direccion': direccion, 'telefono': telefono, 'ruc': ruc}
+
 
 def parse_productos_from_post(post):
     nombre = post.form['factura[productos][nombre]']
     cantidad = post.form['factura[productos][cantidad]']
     tasa = post.form['factura[productos][tasa]']
     precio = post.form['factura[productos][precio]']
-    return { 'nombre':nombre,'cantidad':cantidad,'tasa':tasa,'precio':precio }
+    return {'nombre': nombre, 'cantidad': cantidad, 'tasa': tasa, 'precio': precio}
+
 
 def parse_invoice_data(data):
 
-    #Get variables
+    # Get variables
     customer_name = data["invoice"]["customer_name"]
     address = data["invoice"]["billing_address"]["address"]
     data["invoice"]["customer_name"]
@@ -74,18 +67,20 @@ def parse_invoice_data(data):
 
     # Build Models
     invoice_model = Factura(invoice_id, client_model, global_discount)
-    invoice_model.productos = [translate_product(p) for p in data["invoice"]["line_items"]]
+    invoice_model.productos = [translate_product(
+        p) for p in data["invoice"]["line_items"]]
 
     # Return the invoice Model
     return invoice_model
+
 
 def parse_contact_data(raw_data):
 
     # Build Model
     cliente_model = Cliente(
-            empresa=raw_data['contact']['contact_name'],
-            direccion=raw_data['contact']['billing_address']['address']
-        )
+        empresa=raw_data['contact']['contact_name'],
+        direccion=raw_data['contact']['billing_address']['address']
+    )
 
     # Parse custom fields
     for cf in raw_data['contact']['custom_fields']:
@@ -125,9 +120,10 @@ def translate_product(product):
 
     # Build item
     return Producto(
-            nombre=product['name'], cantidad=product['quantity'], tasa=tasa,
-            precio=product['rate'], descuento=discount
-        )
+        nombre=product['name'], cantidad=product['quantity'], tasa=tasa,
+        precio=product['rate'], descuento=discount
+    )
+
 
 def get_invoice(invoice_id):
 
