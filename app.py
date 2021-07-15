@@ -5,7 +5,6 @@ from flask import request
 from flask import abort
 from flask import render_template
 from flask import Response
-from flask import request
 from flask import redirect
 from flask import url_for
 from modules import printer
@@ -22,6 +21,7 @@ from models.NotaDeCredito import NotaDeCredito
 from models.Producto import Producto
 from datetime import datetime, timedelta
 from time import sleep
+from packages.api import api_blueprint
 import config
 
 
@@ -193,6 +193,9 @@ def reporteX():
 def reporteZ():
     printer.write_string_to_printer('I0Z')
     return redirect(url_for('index'))
+
+
+app.register_blueprint(api_blueprint, url_prefix='/api')
 
 
 if __name__ == "__main__":
