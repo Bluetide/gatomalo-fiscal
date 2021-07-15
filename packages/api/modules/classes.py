@@ -23,7 +23,7 @@ class Product():
 
 
 class Client:
-    def __init__(self, company='', address='', phone='', ruc=''):
+    def __init__(self, company='', address='', ruc=''):
         regex = re.compile(r"\n\s?")
         self.company = self.__company(regex.sub(", ", company))
         self.address = self.__address(regex.sub(", ", address))
@@ -64,15 +64,14 @@ class InvoiceParser():
 class CreditNoteParser():
     def __init__(self, credit_note_dict):
         self.invoice_id = self.__invoice_id(
-            credit_note_dict.get('invoice_id'),
-            1
+            id=credit_note_dict.get('invoice_id')
         )
         self.code = self.__code(credit_note_dict.get('code', 1))
         self.client = self.__client(credit_note_dict['client'])
         self.products = self.__products_string(credit_note_dict['products'])
 
     def __invoice_id(self, id=1):
-        return "jFTFBX110002122-%08d" % int(id)
+        return "jFTFBX110002122-%08d" % int(id if id is not None else 1)
 
     def __client(self, client):
         return str(Client(**client))
