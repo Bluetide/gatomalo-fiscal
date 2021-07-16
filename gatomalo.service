@@ -2,10 +2,8 @@
 Description="GatoMalo Server"
 
 [Service]
-Environment="ZOHO_AUTH=11111"
-Environment="ZOHO_ORG=11111"
-Environment="ADMIN_USERNAME=1111"
-Environment="ADMIN_PASSWORD=1111"
+Restart=always
+RestartSec=5s
 Type=simple
 User=ubuntu
 WorkingDirectory=/gatomalo
