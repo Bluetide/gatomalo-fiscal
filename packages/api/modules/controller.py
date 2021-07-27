@@ -3,6 +3,7 @@ from modules import printer
 from .parsers import parse_invoice, parse_credit_note
 from json import dumps, loads
 from .auth import requires_auth
+import logging
 
 api_blueprint = Blueprint('api', __name__)
 
@@ -11,6 +12,7 @@ api_blueprint = Blueprint('api', __name__)
 @requires_auth
 def print_invoice():
     json_req = request.json
+    logging.debug(json_req)
     string = parse_invoice(json_req['invoice'])
     printer.write_string_to_printer(string)
     return dumps({"printed_invoice": string})
