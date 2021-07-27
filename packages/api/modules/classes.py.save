@@ -1,4 +1,3 @@
-from math import modf, floor
 import re
 
 
@@ -44,7 +43,7 @@ class Client:
 
 class InvoiceParser():
     def __init__(self, invoice_dict):
-        self.code = self.__code(invoice_dict['code'])
+        self.code = self.__code(int(invoice_dict['code']))
         self.client = self.__client(invoice_dict['client'])
         self.products = self.__products(invoice_dict['products'])
 
@@ -58,11 +57,7 @@ class InvoiceParser():
         return "@COD:%s" % code
 
     def __str__(self):
-<<<<<<< HEAD
-        return "\n".join([self.client, self.code, self.products, "3", "101\r\n"])
-=======
         return "\n".join([self.client, self.code, self.products,"3", "101\r\n"])
->>>>>>> origin/ps-api
 
 
 class CreditNoteParser():
