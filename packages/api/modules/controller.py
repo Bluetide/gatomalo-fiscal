@@ -10,7 +10,7 @@ api_blueprint = Blueprint('api', __name__)
 @api_blueprint.route('/print/invoice', methods=['POST'])
 @requires_auth
 def print_invoice():
-    json_req = loads(request.json)
+    json_req = request.json
     string = parse_invoice(json_req['invoice'])
     printer.write_string_to_printer(string)
     return dumps({"printed_invoice": string})
@@ -19,7 +19,7 @@ def print_invoice():
 @api_blueprint.route('/print/credit_note', methods=['POST'])
 @requires_auth
 def print_credit_note():
-    json_req = loads(request.json)
+    json_req = request.json
     string = parse_credit_note(json_req['credit_note'])
     printer.write_string_to_printer(string)
     return dumps({"printed_credit_note": string})
@@ -28,7 +28,7 @@ def print_credit_note():
 @api_blueprint.route('/print/report/<report>', methods=['POST'])
 @requires_auth
 def print_report(report):
-    if report not in ['x', 'y']:
+    if report not in ['x', 'z']:
         abort(400)
 
     printer.write_string_to_printer('I0X' if report == 'x' else 'I0Z')

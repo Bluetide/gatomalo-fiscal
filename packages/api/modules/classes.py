@@ -44,7 +44,7 @@ class Client:
 
 class InvoiceParser():
     def __init__(self, invoice_dict):
-        self.code = self.__code(int(invoice_dict['code']))
+        self.code = self.__code(invoice_dict['code'])
         self.client = self.__client(invoice_dict['client'])
         self.products = self.__products(invoice_dict['products'])
 
@@ -58,7 +58,7 @@ class InvoiceParser():
         return "@COD:%s" % code
 
     def __str__(self):
-        return "\n".join([self.client, self.code, self.products, "101\r\n"])
+        return "\n".join([self.client, self.code, self.products, "3", "101\r\n"])
 
 
 class CreditNoteParser():
@@ -77,7 +77,7 @@ class CreditNoteParser():
         return str(Client(**client))
 
     def __code(self, code):
-        return "@COD:%s" % code
+        return "ACOD:%s" % code
 
     def __products_string(self, products):
         return "\n".join([f"d{str(Product(**product))}" for product in products])
@@ -88,5 +88,7 @@ class CreditNoteParser():
             self.client,
             self.code,
             self.products,
+            '3',
+            'q-000000000',
             "101\r\n"
         ])
