@@ -58,11 +58,7 @@ class InvoiceParser():
         return "@COD:%s" % code
 
     def __str__(self):
-<<<<<<< HEAD
-        return "\n".join([self.client, self.code, self.products, "3", "101\r\n"])
-=======
         return "\n".join([self.client, self.code, self.products,"3", "101\r\n"])
->>>>>>> origin/ps-api
 
 
 class CreditNoteParser():

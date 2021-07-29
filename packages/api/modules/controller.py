@@ -12,10 +12,7 @@ api_blueprint = Blueprint('api', __name__)
 @requires_auth
 def print_invoice():
     json_req = request.json
-<<<<<<< HEAD
-=======
     logging.debug(json_req)
->>>>>>> origin/ps-api
     string = parse_invoice(json_req['invoice'])
     printer.write_string_to_printer(string)
     return dumps({"printed_invoice": string})
