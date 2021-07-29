@@ -11,5 +11,4 @@ def write_string_to_printer(string):
     fp.close()
     subprocess.call(["cat", fp.name])
     # comment to disable printing
-    logging.debug(fp.name)
     subprocess.call([tfunilx, "SendFileCmd", fp.name])

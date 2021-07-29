@@ -86,7 +86,7 @@ class CreditNoteParser():
         return "\n".join([
             self.invoice_id,
             self.client,
-            # self.code,
+            self.code,
             self.products,
             '3',
             'q-000000000',
