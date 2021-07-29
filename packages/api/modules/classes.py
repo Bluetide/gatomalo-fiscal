@@ -58,7 +58,7 @@ class InvoiceParser():
         return "@COD:%s" % code
 
     def __str__(self):
-        return "\n".join([self.client, self.code, self.products,"3", "101\r\n"])
+        return "\n".join([self.client, self.code, self.products, "3", "101\r\n"])
 
 
 class CreditNoteParser():
@@ -86,7 +86,7 @@ class CreditNoteParser():
         return "\n".join([
             self.invoice_id,
             self.client,
-            self.code,
+            # self.code,
             self.products,
             '3',
             'q-000000000',
