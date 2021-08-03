@@ -144,6 +144,7 @@ def create_invoice_json(invoice_id):
 @app.route('/print_gatomalo/<invoice_id>')
 @requires_auth
 def print_gatomalo(invoice_id):
+    print(invoice_id)
     factura = cloud_accounting.get_invoice(invoice_id)
     factura.print()
     return jsonify(data=str(factura))
